@@ -1,0 +1,14 @@
+FROM nvidia/cuda:8.0-cudnn5-devel
+
+RUN apt-get update \
+ && apt-get install -y python-numpy python-dev cmake zlib1g-dev libjpeg-dev xvfb libav-tools xorg-dev python-opengl libboost-all-dev libsdl2-dev swig git python3-pip
+RUN pip3 install --upgrade pip
+RUN pip3 install h5py keras opencv-python pillow sk-video scipy
+RUN pip3 install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp35-cp35m-manylinux1_x86_64.whl
+RUN pip3 install torchvision
+RUN git clone https://github.com/openai/gym
+RUN pip3 install -e gym[atari]
+RUN pip3 install cython
+RUN apt-get update \
+    && apt-get install -y python-scipy python-nose g++ libopenblas-dev
+

@@ -1,0 +1,2 @@
+cd dqn
+python3 train_agent.py $@
