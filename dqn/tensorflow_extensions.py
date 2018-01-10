@@ -91,12 +91,13 @@ def _create_RectifierClass(opt):
     class _Rectifier(Layer):
         def __init__(self, **kwargs):
             super(_Rectifier, self).__init__(**kwargs)
+            self.func = tf.nn.relu if opt.relu else rectifier_func 
 
         def build(self, input_shape):
             super(_Rectifier, self).build(input_shape)
 
         def call(self, inputs):
-            return rectifier_func(inputs)
+            return self.func(inputs)
 
         def compute_output_shape(self, input_shape):
             return (input_shape)

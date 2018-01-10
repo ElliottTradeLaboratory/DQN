@@ -68,6 +68,10 @@ def _parse_arguments():
                         action='store_true',
                         default=False,
                         help="Which use T.grad or not in backend='theano'")
+    parser.add_argument('--relu',
+                        action='store_true',
+                        default=False,
+                        help='Use the framework relu layer. As default, Use DQN3.0 Rectifier layer')
     parser.add_argument('--rectifier_div',
                         choices=[1, 0],
                         default=1,
