@@ -17,8 +17,17 @@ def setup(opt):
 
 @contextmanager
 def get_device(gpu=0):
-    # CNTK has GPU selection that only process wide fixedly.
-    pass
+
+    # CNTK can arbitrarily select a GPU with the CNTK process
+    # executed the first time after OS startup.
+    # After that CNTK process inherits the GPU setting
+    # of the first CNTK process.
+    try:
+        device = C.device.gpu(gpu) if gpu >= 0 else C.device.cpu()
+        C.device.try_set_default_device(device)
+    except Exception:
+        pass
+
     yield
     pass
 
