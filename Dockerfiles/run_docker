@@ -39,5 +39,5 @@ do
     shift
 done
 echo "mount /mnt/DQN ------> ${root_dir}"
-echo "mount /mnt/log_dirt -> ${log_dir}"
+echo "mount /mnt/log_dir --> ${log_dir}"
 nvidia-docker run -it -v ${root_dir}:/mnt/DQN -v ${log_dir}:/mnt/log_dir $image_name
