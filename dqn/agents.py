@@ -154,6 +154,9 @@ class DQNAgent:
 
         curState = None
 
+        if not terminal:
+            self.score += rawreward
+
         reward = rawreward
         if not self.normalized_dqn:
 
@@ -168,7 +171,7 @@ class DQNAgent:
         currentFullState = self.transitions.get_recent()
 
         if self.lastState is not None and not testing:
-            self.transitions.add(self.lastState, self.lastAction, reward, self.lastTerminal)
+            self.transitions.add(self.lastState, self.lastAction, reward, self.lastTerminal, self.score)
 
         if self.numSteps == self.learn_start + 1 and not testing:
             self._sample_validation_data()
@@ -178,9 +181,8 @@ class DQNAgent:
 
         if terminal:
             self.score = 0
-            action = 0 
+            action = -1 
         else:
-            self.score += rawreward
             action = self._eGreedy(curState, testing_ep)
 
         if self.numSteps > self.learn_start and not testing and\
@@ -205,6 +207,7 @@ class DQNAgent:
         if self._do_greedy(testing_ep):
             return self._greedy(state)
         else:
+            self.q = [0 for _ in range(self.n_actions)]
             return self.random.random(0, self.n_actions)
 
     def _greedy(self, state):
@@ -212,18 +215,18 @@ class DQNAgent:
         if len(self.state_dim) == 2:
             assert False, 'Input must be at least 3D'
 
-        q = self.network.forward(state)[0]
+        self.q = self.network.forward(state)[0]
 
         # get action
         if self.use_tie_break:
             # Evaluate all other actions (with random tie-break)
-            maxq = q[0]
+            maxq = self.q[0]
             besta = [0]
             for a in range(1, self.n_actions):
-                if q[a] > maxq:
+                if self.q[a] > maxq:
                     besta = [a]
-                    maxq = q[a]
-                elif q[a] == maxq:
+                    maxq = self.q[a]
+                elif self.q[a] == maxq:
                     besta.append(a)
 
             self.best_q = maxq
@@ -233,7 +236,7 @@ class DQNAgent:
             self.lastAction = besta[r]
         else:
             # only argmax
-            self.lastAction = np.argmax(q)
+            self.lastAction = np.argmax(self.q)
 
         return self.lastAction
 

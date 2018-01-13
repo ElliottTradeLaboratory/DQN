@@ -58,18 +58,18 @@ class PyTorchConvnet(Convnet, Utils):
     def _create_model(self):
         from collections import deque
         from torch.nn import Sequential, Module
-        from pytorch_extensions import ExLinear, ExConv2d, RectifierNew
+        from pytorch_extensions import ExLinear, ExConv2d, Rectifier
 
         names = deque(self.summarizable_layer_names)
 
         self._modules = [ExConv2d(4, 32, kernel_size=8, stride=4, padding=1, name=names.popleft()),
-                         RectifierNew(name=names.popleft()),
+                         Rectifier(name=names.popleft()),
                          ExConv2d(32, 64, kernel_size=4, stride=2, name=names.popleft()),
-                         RectifierNew(name=names.popleft()),
+                         Rectifier(name=names.popleft()),
                          ExConv2d(64, 64, kernel_size=3, stride=1, name=names.popleft()),
-                         RectifierNew(name=names.popleft()),
+                         Rectifier(name=names.popleft()),
                          ExLinear(3136, 512, name=names.popleft()),
-                         RectifierNew(name=names.popleft()),
+                         Rectifier(name=names.popleft()),
                          ExLinear(512, self.args.n_actions, name=names.popleft())]
 
         features = Sequential()
@@ -190,7 +190,10 @@ class PyTorchConvnet(Convnet, Utils):
             s = s.cuda(self.args.gpu)
 
         predict = self.model.forward(s)
-        return predict
+        if self.args.gpu >= 0:
+            return predict.cpu().numpy()
+        else:
+            return predict.numpy()
 
     def forward_train(self, s):
         if isinstance(s, np.ndarray):
@@ -199,7 +202,10 @@ class PyTorchConvnet(Convnet, Utils):
         if self.args.gpu >= 0:
             s = s.cuda(self.args.gpu)
 
-        predict = self.model.forward_train(s)
+        if self.args.backend == 'pytorch':
+            predict = self.model.forward_train(s)
+        else:
+            predict = self.model.forward(s)
         return predict
 
     def get_summarizable_modules(self):

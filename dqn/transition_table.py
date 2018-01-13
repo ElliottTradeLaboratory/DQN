@@ -19,17 +19,19 @@ class TransitionTable:
 
         self.s = np.zeros((self.maxSize,) + self.shapes['s'], dtype=np.uint8)
         self.a = np.zeros((self.maxSize,), dtype=np.uint8)
-        self.r = np.zeros((self.maxSize,), dtype=np.int16)
+        self.r = np.zeros((self.maxSize,), dtype=np.int8 if args.clip_reward else np.int16)
         self.t = np.zeros((self.maxSize,), dtype=np.uint8)
+        self.score = np.zeros((self.maxSize,), dtype=np.uint8)
 
         self.recent_s = np.zeros((self.hist_len,) + self.shapes['s'], dtype=np.float32)
         self.recent_t = np.zeros((self.hist_len,), dtype=np.uint8)
 
         self.buf_s = np.zeros((self.bufferSize,) + (self.hist_len,) + self.shapes['s'], dtype=np.float32)
         self.buf_a = np.zeros((self.bufferSize,), dtype=np.uint8)
-        self.buf_r = np.zeros((self.bufferSize,), dtype=np.int16)
+        self.buf_r = np.zeros((self.bufferSize,), dtype=np.int8 if args.clip_reward else np.int16)
         self.buf_s2 = np.zeros((self.bufferSize,) + (self.hist_len,) + self.shapes['s'], dtype=np.float32)
         self.buf_term = np.zeros((self.bufferSize,), dtype=np.uint8)
+        self.buf_score = np.zeros((self.bufferSize,), dtype=np.uint8)
 
         self.last_s = None
 
@@ -58,13 +60,14 @@ class TransitionTable:
         self.buf_ind = 0
 
         for buf_ind in range(self.bufferSize):
-            s, a, r, s2, t = self._sample_one()
+            s, a, r, s2, t, score = self._sample_one()
 
             self.buf_s[buf_ind] = np.copy(s).astype(np.float32)
             self.buf_a[buf_ind] = a
             self.buf_r[buf_ind] = r
             self.buf_s2[buf_ind] = np.copy(s2).astype(np.float32)
             self.buf_term[buf_ind] = t
+            self.buf_score[buf_ind] = score
 
         self.buf_s = self.normalize(self.buf_s)
         self.buf_s2 = self.normalize(self.buf_s2)
@@ -115,7 +118,7 @@ class TransitionTable:
                buf_a[index:last_index],\
                buf_r[index:last_index],\
                buf_s2[index:last_index],\
-               buf_term[index:last_index]
+               buf_term[index:last_index],\
 
     def _concatFrames(self, index, use_recent):
         
@@ -151,15 +154,16 @@ class TransitionTable:
         s2 = self._concatFrames(index + 1, False)
         ar_index = index + self.hist_len - 1
 
-        return s, self.a[ar_index], self.r[ar_index], s2, self.t[ar_index+1]
+        return s, self.a[ar_index], self.r[ar_index], s2, self.t[ar_index+1], self.score[ar_index]
 
-    def add(self, s, a, r, t):
+    def add(self, s, a, r, t, score):
         s = self.denormalize(s)
 
         self.s[self.insertIndex,...] = s
         self.a[self.insertIndex] = a
         self.r[self.insertIndex] = r
         self.t[self.insertIndex] = t * 1
+        self.score[self.insertIndex] = np.int8(score/10)
 
         if self.numEntries < self.maxSize:
             self.numEntries += 1

@@ -1,5 +1,7 @@
 import sys
 import re
+import numpy as np
+
 sys.path.append('../')
 
 try:
@@ -19,6 +21,7 @@ except ImportError:
 from .environments import GameEnvironment, GymEnvWrapper
 from .game_screen import get_game_screen
 from .recorder import RecorderEnv
+from .render import Render
 from .ale_env import AleEnv
 from .ale_python_interface import ALEInterface
 
@@ -30,3 +33,23 @@ def get_env(opt):
         env = GameEnvironment(opt)
     return RecorderEnv(env, opt)
 
+ACTION_MEANING = np.array([
+    "NOOP",
+    "FIRE",
+    "UP",
+    "RIGHT",
+    "LEFT",
+    "DOWN",
+    "UPRIGHT",
+    "UPLEFT",
+    "DOWNRIGHT",
+    "DOWNLEFT",
+    "UPFIRE",
+    "RIGHTFIRE",
+    "LEFTFIRE",
+    "DOWNFIRE",
+    "UPRIGHTFIRE",
+    "UPLEFTFIRE",
+    "DOWNRIGHTFIRE",
+    "DOWNLEFTFIRE",
+])

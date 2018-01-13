@@ -1,13 +1,13 @@
 import sys
 import time
 from datetime import datetime
-from collections import deque
+from collections import deque, Counter
 import numpy as np
 
 sys.path.append('../')
 from utils import get_random
 from config import get_opt
-from visualizer import CurrentStateVisualizer, EvaluationVisualizer
+from visualizer import CurrentStateVisualizer, EvaluationVisualizer, QValueVisualizer
 
 def get_device_name(opt):
     if opt.gpu >= 0:
@@ -35,6 +35,8 @@ def train_main(game_env, agent, game_actions, opt):
     action_index = 0
     current_state_visualizer = CurrentStateVisualizer(opt)
     eval_visualizer = EvaluationVisualizer(opt)
+    q_value_visualizer = QValueVisualizer(opt)
+    
 
     get_random().manualSeed(1)
 
@@ -104,13 +106,15 @@ def train_main(game_env, agent, game_actions, opt):
             score_list = []
             eval_time = time.time()
 
-            game_env.start_recording(step)
+            game_env.start_recording(step, q_value_visualizer)
 
             screen, reward, terminal, info = game_env.newGame()
             
             for estep in range(opt.eval_steps):
 
                 action = agent.perceive(screen, reward, terminal, testing=True, testing_ep=0.05)
+
+                q_value_visualizer.collect_q_value(agent.q)
 
                 # Play game in test mode (episodes don't end when losing a life)
                 screen, reward, terminal, info = game_env.step(game_actions[action], training=False)
@@ -119,7 +123,7 @@ def train_main(game_env, agent, game_actions, opt):
                     eval_frames += info['frameskip']
                 else:
                     eval_frames += opt.actrep
-                
+
                 if terminal:
                     print('episode:{} score:{}'.format(game_env.episode_id, game_env.episode_score))
                     screen, reward, terminal, info = game_env.nextRandomGame()
@@ -172,6 +176,14 @@ def train_main(game_env, agent, game_actions, opt):
                         nepisodes,
                         nrewards))
 
+        if opt.save_transitions_freq and step % opt.save_transitions_freq == 0:
+            filepath = '{}/{}_{}_transitions_score_step{:010d}.txt'.format(opt.log_dir, opt.env, opt.backend, step)
+            print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'step[{0}] save score distribution in transitions to [{1}]'.format(step, filepath))
+            _save_score_dist(agent.transitions.score[:agent.transitions.numEntries], filepath)
+            filepath = '{}/{}_{}_samplebuf_score_step{:010d}.txt'.format(opt.log_dir, opt.env, opt.backend, step)
+            print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'step[{0}] save score distribution in sample buffer to [{1}]'.format(step, filepath))
+            _save_score_dist(agent.transitions.buf_score, filepath)
+
         if step % opt.save_freq == 0 or step == opt.steps:
             filepath = '{}/{}_{}_network_step{:010d}.dat'.format(opt.log_dir, opt.env, opt.backend, step)
             print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'step[{0}] save network to [{1}]'.format(step, filepath))
@@ -180,7 +192,23 @@ def train_main(game_env, agent, game_actions, opt):
             
 
         sys.stdout.flush()
-        
+
+def _save_score_dist(scores, filepath):
+    count_score = Counter(scores)
+    str = ''
+    for cls, num in count_score.most_common():
+        str = '{}{:d}:{}\n'.format(str, cls*10, num)
+    str = '{}total {}\n'.format(str, scores.sum())
+    str = '{}max {}\n'.format(str, scores.max())
+    str = '{}min {}\n'.format(str, scores.min())
+    str = '{}mean {}\n'.format(str, scores.mean())
+    str = '{}median {}\n'.format(str, np.median(scores))
+    str = '{}var {}\n'.format(str, np.var(scores))
+    str = '{}std {}\n'.format(str, np.std(scores, ddof=1))
+    print(str)
+    with open(filepath, 'wt') as f:
+        f.write(str)
+
 
 def test_main(game_env, agent, game_actions, opt):
 
@@ -192,22 +220,29 @@ def test_main(game_env, agent, game_actions, opt):
 
     eval_time = time.time()
     
+    q_value_visualizer = QValueVisualizer(opt)
+    
     print('--------------------------------------------------------------')
     print('test start',datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+
+    if opt.test_recording:
+        game_env.start_recording(0, q_value_visualizer)
 
     screen, reward, terminal, info = game_env.getState()
 
     while nepisodes < opt.test_episodes:
     
-        action = agent.perceive(screen, reward, terminal, True, 0.05)
+        action = agent.perceive(screen, reward, terminal, True, opt.test_ep)
+
+        q_value_visualizer.collect_q_value(agent.q)
 
         screen, reward, terminal, info = game_env.step(game_actions[action], False)
 
-        if opt.render:
-            game_env.render()
-
         episode_reward = episode_reward + reward
-        
+
+        if opt.render:
+            game_env.render(agemt.q)
+
         if terminal:
             print('episode:{:03d} reward:{}'.format(nepisodes+1, episode_reward))
             episode_rewards.append(episode_reward)
@@ -216,6 +251,9 @@ def test_main(game_env, agent, game_actions, opt):
 
             screen, reward, terminal, info = game_env.nextRandomGame()
             
+    if opt.test_recording:
+        game_env.stop_recording()
+
     episode_rewards = np.array(episode_rewards)
     print('test end', datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'total reward: {:.2f}'.format(episode_rewards.sum()),

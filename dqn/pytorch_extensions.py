@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from torch.legacy.nn import Module as Legacy_Module
+import torch.legacy.nn as legacy_nn
 from torch.autograd import Function
 
 def setup_before_package_loading(opt):
@@ -8,15 +8,8 @@ def setup_before_package_loading(opt):
 
 def setup(opt):
     torch.manual_seed(opt.seed)
+    _create_rectifier(opt)
     return opt
-
-# DQN3.0 Rectifier reproduced by PyTorch(Legacy)
-class Rectifier(Legacy_Module):
-    def updateOutput(self, input):
-        return self.output.resize_as_(input).copy_(input).abs_().add_(input).div_(2)
-    def updateGradInput(self, input, gradOutput):
-        self.gradInput.resize_as_(self.output)
-        return self.gradInput.set_(torch.sign(self.output) * gradOutput)
 
 class LegacyInterface(object):
 
@@ -58,30 +51,53 @@ class ExLinear(nn.Linear, LegacyInterface):
     def name(self):
         return self._name
 
-# DQN3.0 Rectifier reproduced by PyTorch(New)
-class RectifierFunction(torch.autograd.Function):
-    @staticmethod
-    def forward(ctx, input):
-        output = input.abs().add(input).div(2.0)
-        ctx.save_for_backward(output)
-        return output
 
-    @staticmethod
-    def backward(ctx, grad_output):
-        output = ctx.saved_variables
-        return output[0].sign() * grad_output
+Rectifier = None
+def _create_rectifier(opt):
+    global Rectifier
+    if opt.backend == 'pytorch_legacy':
+        if opt.relu:
+            Rectifier = legacy_nn.ReLU
+        else:
+            # DQN3.0 Rectifier reproduced by PyTorch(Legacy)
+            class _Rectifier(legacy_nn.Module):
+                def updateOutput(self, input):
+                    return self.output.resize_as_(input).copy_(input).abs_().add_(input).div_(2)
+                def updateGradInput(self, input, gradOutput):
+                    self.gradInput.resize_as_(self.output)
+                    return self.gradInput.set_(torch.sign(self.output) * gradOutput)
+            Rectifier = _Rectifier
+    elif opt.backend == 'pytorch':
+        # DQN3.0 Rectifier reproduced by PyTorch(New)
+        class RectifierFunction(torch.autograd.Function):
+            @staticmethod
+            def forward(ctx, input):
+                output = input.abs().add(input).div(2.0)
+                ctx.save_for_backward(output)
+                return output
 
-class RectifierNew(nn.ReLU):
-    def __init__(self, name=None):
-        super(RectifierNew, self).__init__(False)
-        self.output = None
-        self._name = name
+            @staticmethod
+            def backward(ctx, grad_output):
+                output = ctx.saved_variables
+                return output[0].sign() * grad_output
 
-    def forward(self, input):
-        self.output = RectifierFunction.apply(input)
-        return self.output
+        class RectifierNew(nn.ReLU):
+            def __init__(self, name=None):
+                super(RectifierNew, self).__init__(False)
+                self.output = None
+                self._name = name
 
-    @property
-    def name(self):
-        return self._name
+            def forward(self, input):
+                if opt.relu:
+                    self.output = super(RectifierNew, self).forward(input)
+                else:
+                    self.output = nn.functional.relu(input)
+                return self.output
 
+            @property
+            def name(self):
+                return self._name
+
+        Rectifier = RectifierNew
+    else:
+        assert False

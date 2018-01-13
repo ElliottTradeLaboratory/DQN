@@ -128,10 +128,33 @@ def _parse_arguments():
                         action='store_true',
                         default=False,
                         help="run test mode.")
+    parser.add_argument('--test_ep',
+                        type=float,
+                        default=0.05,
+                        help="e-greedy epsilon in tes   t")
+    parser.add_argument('--test_recording',
+                        action='store_true',
+                        default=False,
+                        help="recording video in test mode.")
+    parser.add_argument('--test_recording_q_value',
+                        action='store_true',
+                        default=False,
+                        help="recording q_value in test mode.")
+    parser.add_argument('--test_recording_q_value_show',
+                        type=int,
+                        default=0,
+                        help="show recording q_value in test mode.")
+    parser.add_argument('--test_episodes',
+                        type=int,
+                        default=30)
     parser.add_argument('--render',
                         action='store_true',
                         default=False,
                         help="Show the game screen on desktop.")
+    parser.add_argument('--video_freq',
+                        type=int,
+                        default=100,
+                        help="Video output frequency as default.")
     parser.add_argument('--logdir',
                         default='/home/deeplearning/work/tensorboard/logs',
                         help='log dir')
@@ -142,9 +165,6 @@ def _parse_arguments():
     parser.add_argument('--not_use_egreedy',
                         action='store_true',
                         default=False)
-    parser.add_argument('--test_episodes',
-                        type=int,
-                        default=10)
     parser.add_argument('--file_name', 
                         type=str,
                         help='filename used for saving network and training history.')
@@ -154,6 +174,10 @@ def _parse_arguments():
 
 
     # Debug option
+    parser.add_argument('--save_transitions_freq',
+                        type=int,
+                        default=0,
+                        help='Save the scores in transitions. As default, does not save')
     parser.add_argument('--verbose',
                         type=int,
                         default=2,
