@@ -1,0 +1,7 @@
+#
+# For Theano
+#
+FROM theano_base
+ADD . /DQN
+RUN cd /DQN \
+   && ./setup.sh
