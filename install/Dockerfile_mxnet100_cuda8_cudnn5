@@ -1,3 +1,7 @@
+#
+# MXNet 1.0.0
+#
+
 FROM nvidia/cuda:8.0-cudnn5-devel
 
 RUN apt-get update \
