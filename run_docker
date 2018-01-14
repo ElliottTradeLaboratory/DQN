@@ -1,0 +1,21 @@
+#!/bin/bash
+
+if [ $# = 0 ]; then
+    echo "./run_docker <framework name> [--logdir <logdir path>]"
+    exit 1
+fi
+if [ $# -gt 3 ]; then
+    echo "./run_docker <framework name> [--logdir <logdir path>]"
+    exit 1
+fi
+
+image_name=$1
+log_dir="/tmp"
+
+if [ ! -z "$2" -a "$2" = "--logdir" ]; then
+    log_dir=$3
+fi
+
+echo "framework : ${image_name}"
+echo "mount /mnt/log_dir --> ${log_dir}"
+nvidia-docker run -it --rm -v ${log_dir}:/mnt/log_dir $image_name
