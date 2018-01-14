@@ -8,7 +8,7 @@ See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
 ## Installation Overview
 
 * The installation requires Linux.<br>
-* Strongly recommended use GPU.　Because it takes about 7 days to learn 5 million steps even when running on the GTX 1080 ti using the fastest version with the setting closest to DQN 3.0.
+* Strongly recommended use GPU.　Because it takes about 7 days to learn 5 million steps even when running on the GTX1080ti using the fastest version with the setting closest to DQN 3.0.
 
 ### ◇Deep Learning Frameworks
 This implementation uses multiple frameworks, but you can install and run all of them, or you can install and run only one framework.
