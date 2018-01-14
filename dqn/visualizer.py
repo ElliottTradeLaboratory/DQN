@@ -187,6 +187,7 @@ class LearningVisualizer(Visualizer):
 class QValueVisualizer(Render):
 
     def __init__(self, args):
+        super(QValueVisualizer, self).__init__(args)
         self.test_recording_q_value = args.test_recording_q_value
         self.show_q_value = args.test_recording_q_value_show
 
@@ -247,7 +248,7 @@ class QValueVisualizer(Render):
             f.write('---------------------------\n')
             f.write('random count:{}(%{:.2f})\n'.format(random_step_count, random_step_count/self.total_steps*100))
 
-    def __call__(self, frame):
+    def rendering(self, frame):
 
         if self.show_q_value:
             fig = self.plt.figure()

@@ -1,5 +1,5 @@
 #
-#  Docker image with cuda8.0 & cudnn6
+#  Build DQN image with cuda8.0 & cudnn6
 #
 FROM nvidia/cuda:8.0-cudnn6-devel-ubuntu16.04
 

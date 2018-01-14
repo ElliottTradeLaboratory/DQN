@@ -120,7 +120,10 @@ def _build_Rectifier_class(opt):
             super(Rectifier, self).__init__(activation='relu', **kwargs)
 
         def call(self, inputs):
-            return C.user_function(RectifierFunction(inputs))
+            if opt.relu:
+                return C.relu(inputs)
+            else:
+                return C.user_function(RectifierFunction(inputs))
 
     Rectifier = _Rectifier
 

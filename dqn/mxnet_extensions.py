@@ -8,7 +8,7 @@ import mxnet.optimizer
 from mxnet import random
 from mxnet.module import BucketingModule
 from mxnet import context as ctx
-from mxnet.symbol import sign, sqrt
+from mxnet.symbol import sign, sqrt, Activation
 from initializer import Torch_nn_DefaultInitializer as torch_nn_init
 
 def setup_before_package_loading(opt):
@@ -72,6 +72,12 @@ class RectifierProp(mxnet.operator.CustomOpProp):
     def create_operator(self, ctx, shapes, dtypes):
         return Rectifier()
 
+
+def get_relu(opt, inputs, name):
+    if opt.relu:
+        return Activation(data=inputs, act_type='relu', name=name)
+    else:
+        return Custom(data=inputs, op_type='Rectifier', name=name)
 
 @mxnet.optimizer.register
 class DQNRMSProp(mxnet.optimizer.Optimizer):

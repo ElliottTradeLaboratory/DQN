@@ -4,7 +4,7 @@ import numpy as np
 import mxnet as mx
 from collections import namedtuple, deque, OrderedDict
 from mxnet.symbol import Variable, FullyConnected, Custom, Convolution, flatten
-from mxnet_extensions import Torch_nn_DefaultInitialiser, ExBucketingModule, DQNRMSProp
+from mxnet_extensions import Torch_nn_DefaultInitialiser, ExBucketingModule, DQNRMSProp, get_relu
 
 from convnet_common import Convnet, Trainer
 from visualizer import LearningVisualizer
@@ -36,26 +36,26 @@ class MXnetConvnet(Convnet):
                                        stride=(4,4),
                                        pad=(1,1),
                                        name=names.popleft()))
-        self.layers.append(Custom(data=self.layers[-1], op_type='Rectifier', name=names.popleft()))
+        self.layers.append(get_relu(self.args, self.layers[-1], name=names.popleft()))
         self.layers.append(Convolution(data=self.layers[-1],
                                        num_filter=64,
                                        kernel=(4,4),
                                        stride=(2,2),
                                        pad=(0,0),
                                        name=names.popleft()))
-        self.layers.append(Custom(data=self.layers[-1], op_type='Rectifier', name=names.popleft()))
+        self.layers.append(get_relu(self.args, self.layers[-1], name=names.popleft()))
         self.layers.append(Convolution(data=self.layers[-1],
                                        num_filter=64,
                                        kernel=(3,3),
                                        stride=(1,1),
                                        pad=(0,0),
                                        name=names.popleft()))
-        self.layers.append(Custom(data=self.layers[-1], op_type='Rectifier', name=names.popleft()))
+        self.layers.append(get_relu(self.args, self.layers[-1], name=names.popleft()))
         self.layers.append(flatten(data=self.layers[-1], name=names.popleft()))
         self.layers.append(FullyConnected(data=self.layers[-1],
                                           num_hidden=512,
                                           name=names.popleft()))
-        self.layers.append(Custom(data=self.layers[-1], op_type='Rectifier', name=names.popleft()))
+        self.layers.append(get_relu(self.args, self.layers[-1], name=names.popleft()))
         self.layers.append(FullyConnected(data=self.layers[-1],
                                           num_hidden=self.args.n_actions,
                                           name=names.popleft()))
