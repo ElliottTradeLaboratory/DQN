@@ -8,24 +8,27 @@ See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
 ## Installation Overview
 
 * The installation requires Linux.<br>
-* Strongly recommended use GPU.　Because it takes about 7 days to learn 5 million steps even when running on the GTX 1080 ti using the fastest version with the setting closest to DQN 3.0.
+* Strongly recommended use GPU.　Because it takes about 7 days to learn 5 million steps even when running on the GTX1080ti using the fastest version with the setting closest to DQN 3.0.
 
 ### ◇Deep Learning Frameworks
 This implementation uses multiple frameworks, but you can install and run all of them, or you can install and run only one framework.
 However, only [Tensorflow](https://www.tensorflow.org/) is necessary for logging.
 
-The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/Dockerfiles) onto Docker.
+The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) onto Docker as follows "[1. Run on Docler](#1-run-on-docker)".
 
 Particularly, in the case of CNTK, it is useful to use Docker to running parallel train when you needs running parallel with different arguments.　Because, parallelization in CNTK is implemented with MPI, therefore you need to use `mpiexec` and execute like `mpiexec --npernode $num_workers python training.py`[<sup>[1]</sip>](#cntk_mpi).
 
-The version of each framework is strictly specified in Dockerfile.　This is to prevent the future releases of each framework from causing this DQN implementation to stop working.　When building execution environments without using Docker, it is necessary to follow the installation method of the framework described in Dockerfile.
+If you want to installing directly to Linux without Docker, you can install as follows "[2. Run on your environment without Docker](#2-run-on-your-environment-without-docker)".
+
+If you want to install other way, you can refer to see install scripts in [install directory](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) for help to understanding how to install. 　Particularly, you need to install according to  _\<framework name\>_ _install.sh in install directory for frameworks. Because, The version of each framework is strictly specified for prevent the future releases of each framework from causing this DQN implementation to stop working.
+
 
 ### ◇Arcade Learning Environment
 
-This implementation uses [alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py) on [Deep Mind's xitari](https://github.com/deepmind/xitari), but you can also use [Open AI's Gym](https://github.com/openai/gym).<br>
-Although xitari is bundled in alewrap_py because the interface part has been customized for alewrap_py, Gym needs to be installed separately (but it is not necessary ).<br>
-However, the advantage of installing the gym is not only comparable with the xitari version, but since all Atari game modules (e.g. breakout.bin) are bundled with atari_py that is bundled with Gym, There is also no need to search in to get them.<br>
-When "2. Run on Docker" is selected as below, Gym will be automatically installed in the Docker image.
+This implementation uses [alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py) on fork of [Deep Mind's xitari](https://github.com/deepmind/xitari), but you can also use [Open AI's Gym](https://github.com/openai/gym).<br>
+Since alewrap_py and xitari are submodules of this repository, you will be able to install they automatically, but Gym needs to be installed separately (but it is not required).<br>
+However, the advantage of installing the gym is not only comparable with the alewrap_py version, but since all Atari game modules (e.g. breakout.bin) are bundled with atari_py that is bundled with Gym, There is also no need to search in to get them.<br>
+If you follows to "[1. Run on Docler](#1-run-on-docker)" or "[2. Run on your environment without Docker](#2-run-on-your-environment-without-docker)", Gym will be automatically installed .
 
 ## Installation instructions
 
@@ -72,7 +75,7 @@ root@xxxxxx:/# cd DQM
 root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name>
 ```
 
-### 2. Run on own environment
+### 2. Run on your environment without Docker
 
 #### 2-1. Install CUDA and CUDNN
 
