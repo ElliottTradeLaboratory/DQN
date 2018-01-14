@@ -3,7 +3,7 @@ import numpy as np
 
 import mxnet as mx
 from collections import namedtuple, deque, OrderedDict
-from mxnet.symbol import Variable, FullyConnected, Custom, Convolution, flatten
+from mxnet.symbol import Variable, FullyConnected, Convolution, flatten
 from mxnet_extensions import Torch_nn_DefaultInitialiser, ExBucketingModule, DQNRMSProp, get_relu
 
 from convnet_common import Convnet, Trainer

@@ -8,7 +8,7 @@ import mxnet.optimizer
 from mxnet import random
 from mxnet.module import BucketingModule
 from mxnet import context as ctx
-from mxnet.symbol import sign, sqrt, Activation
+from mxnet.symbol import sign, sqrt, Activation, Custom
 from initializer import Torch_nn_DefaultInitializer as torch_nn_init
 
 def setup_before_package_loading(opt):

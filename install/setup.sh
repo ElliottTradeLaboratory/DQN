@@ -25,4 +25,4 @@ for backend in $baskends; do
         ./${backend}_install.sh
     fi
 done
-pip3 install Pillow matplotlib python3-tk
+pip3 install Pillow matplotlib
