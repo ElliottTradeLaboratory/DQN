@@ -108,7 +108,7 @@ $ ./dependencies.sh
 $ cd <clone root dir>/DQN/install
 $ ./setup.sh <framewrok name> or all
 ```
-NOTE: setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
+NOTE: setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms of atari_py is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
 
 #### 2-5. Run DQN
 
