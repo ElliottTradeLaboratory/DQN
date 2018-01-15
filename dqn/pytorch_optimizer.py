@@ -145,7 +145,8 @@ class PytorchLegacy_DQN30_Optimizer(object):
 
             g.mul_(self.grad_momentum).add_(1 - self.grad_momentum, dw)
             g2.mul_(self.sqared_grad_momentum).addcmul_(1 - self.sqared_grad_momentum, dw, dw)
-            tmp = g2.addcmul(-1, g, g).add_(self.mini_squared_gradient).sqrt()
+            tmp = g * g * -1
+            tmp = tmp.add(g2).add_(self.mini_squared_gradient).sqrt()
             deltas.mul_(self.momentum).addcdiv_(self.lr, dw, tmp)
             if isinstance(w, torch.nn.parameter.Parameter):
                 w.data.add_(deltas)

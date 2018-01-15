@@ -134,9 +134,9 @@ def train_main(game_env, agent, game_actions, opt):
             
             game_env.stop_recording()
 
-            total_reward = sum(game_env.episode_scores)
-            nepisodes = len(game_env.episode_scores)
-            avg_epi_reward = np.mean(game_env.episode_scores)
+            total_reward = sum(game_env.get_episode_scores())
+            nepisodes = game_env.get_num_episode()
+            avg_epi_reward = np.mean(game_env.get_episode_scores())
  
             agent.decide_regreedy(avg_epi_reward)
  
@@ -144,7 +144,7 @@ def train_main(game_env, agent, game_actions, opt):
             start_time += eval_time
             agent.compute_validation_statistics()
             
-            eval_values = dict(episode_score=np.array(game_env.episode_scores), episode_count=nepisodes)
+            eval_values = dict(episode_score=np.array(game_env.get_episode_scores()), episode_count=nepisodes)
             valid_values = dict(TDerror=agent.tderr_avg, V=agent.v_avg)
             eval_visualizer.addEvaluation(eval_values)
             eval_visualizer.addValidation(valid_values)
