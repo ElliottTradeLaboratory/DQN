@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
+    echo "./test_run <backend> <env> <param_file_name>"
+    exit 1
+fi
+
+./run --backend $1 --env $2 --file_name $3 --test  --test_recording --test_recording_q_value --video_freq 1 --logdir /tmp

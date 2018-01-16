@@ -226,7 +226,7 @@ class MXnetTrainer(Trainer):
         self.delta = self.delta.clip(-self.args.clip_delta,
                                      self.args.clip_delta)
         
-        self.targets = self.delta.reshape((q2.shape[0],1)) * a_one_hot
+        self.targets = self.delta.reshape((batch_size, 1)) * a_one_hot
 
         return self.targets, self.delta, self.q2_max
 
