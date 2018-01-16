@@ -5,4 +5,4 @@ if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
     exit 1
 fi
 
-./run --backend $1 --env $2 --file_name $3 --test  --test_recording --test_recording_q_value --video_freq 1 --logdir /tmp
+./run --backend $1 --env $2 --file_name $3 --test  --test_recording --test_recording_q_value --video_freq 1 --logdir /tmp $@
