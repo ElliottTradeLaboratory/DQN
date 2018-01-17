@@ -83,7 +83,7 @@ def _create_rectifier(opt):
 
         class RectifierNew(nn.ReLU):
             def __init__(self, name=None):
-                super(RectifierNew, self).__init__(False)
+                super(RectifierNew, self).__init__()
                 self.output = None
                 self._name = name
 
@@ -91,13 +91,25 @@ def _create_rectifier(opt):
                 if opt.relu:
                     self.output = super(RectifierNew, self).forward(input)
                 else:
-                    self.output = nn.functional.relu(input)
+                    self.output = RectifierFunction.apply(input)
                 return self.output
 
             @property
             def name(self):
                 return self._name
 
+            def __repr__(self):
+                if opt.relu:
+                    class_name = 'nn.ReLU'
+                else:
+                    class_name = self.__class__.__name__
+
+                inplace_str = ', inplace' if self.inplace else ''
+                return class_name + '(' \
+                    + str(0) \
+                    + ', ' + str(0) \
+                    + inplace_str + ')'
+            
         Rectifier = RectifierNew
     else:
         assert False
