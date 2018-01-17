@@ -21,9 +21,6 @@ class DQNAgent:
 
         # create Q network ,target Q network and Q network trainer
         self.network, self.trainer = common.create_networks(args)
-        if not args.file_name is None:
-            self.network.load(args.file_name)
-            self.trainer.update_target_network()
 
         # Load preprocessing network.
         PreprocessClass = common.get_preprocess(args.preproc)
@@ -34,6 +31,11 @@ class DQNAgent:
             from common import get_extensions
             Ex = get_extensions(args)
             Ex.variable_initialization()
+
+        # Load network parameters.
+        if not args.file_name is None:
+            self.network.load(args.file_name)
+            self.trainer.update_target_network()
 
         if args.maximization == 'agent':
             from alewrap_py.game_screen import GameScreen
