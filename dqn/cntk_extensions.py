@@ -121,7 +121,7 @@ def _build_Rectifier_class(opt):
 
         def call(self, inputs):
             if opt.relu:
-                return C.relu(inputs)
+                return super(Rectifier, self).call(inputs)
             else:
                 return C.user_function(RectifierFunction(inputs))
 
