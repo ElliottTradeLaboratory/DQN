@@ -145,5 +145,5 @@ _\<backend name\>_ | Framework used for networks
 
 ***
 <a name="cntk_mpi"><sup>[1]</sup></a> https://docs.microsoft.com/en-us/cognitive-toolkit/Multiple-GPUs-and-machines<br>
-<a name="pytorch_cuda"><sup>[2]</sup></a> Because it depends on Tensorflow that used for preprocessing and logging. It does not work on CUDA9.0 and cuDNN7.0 as of January 2018.<br>
+<a name="pytorch_cuda"><sup>[2]</sup></a> Because it depends on Tensorflow that used for preprocessing and logging. It does not work on CUDA9.0 as of January 2018.<br>
 <a name="tensorflow"><sup>[3]</sup></a> As of January 2018, if you want to run on Python3.6, you must install Tensorflow 1.3.0 as follows:<br>[for GPU]pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl<br>[for CPU]pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow_cpu-1.3.0-cp36-cp36m-linux_x86_64.whl.<br>
