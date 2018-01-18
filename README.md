@@ -124,10 +124,10 @@ $ tensorboard --logdir .
 
 _\<framework name\>_ | Install frameworks| CUDA | cuDNN
 ---------------|-----|-----|-----
-`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
-`tensorflow` | Tensorflow 1.4.1 | 8.0 | 6.0
-`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1 | 8.0 | 6.0
-`mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1 | 8.0 | 5.1
+`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
+`tensorflow` | Tensorflow-gpu 1.4.1 | 8.0 | 6.0
+`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0
+`mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
 
 * _\<game name\>_ is:<br>
 　For alewrap_py,  a module name of the game exclude `.bin`(e.g. `breakout`).<br>
