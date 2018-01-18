@@ -95,22 +95,15 @@ $ cd <clone root dir>
 $ git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 ```
 
-#### 2-3. Install dependencies
+#### 2-3. Run Install Script
 
 ```
 $ cd <clone root dir>/DQN/install
-$ ./dependencies.sh
+$ ./install_your_linux.sh
 ```
+NOTE: install_your_linux.sh calls steup.sh. setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms of atari_py is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
 
-#### 2-4. Install Python libraries
-
-```
-$ cd <clone root dir>/DQN/install
-$ ./setup.sh <framewrok name> or all
-```
-NOTE: setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms of atari_py is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
-
-#### 2-5. Run DQN
+#### 2-4. Run DQN
 
 ```
 $ cd <clone root dir>/DQN
