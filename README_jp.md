@@ -37,7 +37,7 @@
 次の手順に従い、nvidia-dockerをインストールします:
 https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0)
 
-## 1-2. リポジトリのクローン
+#### 1-2. リポジトリのクローン
 
 ```
 cd <clone root dir>
