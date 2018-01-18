@@ -15,8 +15,10 @@ cd /
 cd /DQN/alewrap_py
 python3 setup.py build
 python3 setup.py install
-cd /usr/local/lib/python3.5/dist-packages/alewrap_py-1.0.0-py3.5.egg/alewrap_py/atari_roms
-ls /usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin | xargs -I{} ln -s {}
+PACKAGES_DIR=`python3 get_site_packages_path.py`
+ALEWRAP_PY_DIR=`python3 get_site_packages_path.py --get_alewrap_dir`
+cd ${ALEWRAP_PY_DIR}/alewrap_py/atari_roms
+ls ${PACKAGES_DIR}/atari_py/atari_roms/*.bin | xargs -I{} ln -s {}
 
 frameworks="pytorch cntk tensorflow mxnet"
 for backend in $baskends; do
