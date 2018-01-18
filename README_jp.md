@@ -14,11 +14,11 @@
 
 この実装は複数のフレームワークを使用していますが、それらすべてをインストールすることも、または1つのフレームワークのみをインストールすることも可能です。　しかし、Tensorflowはロギングのために必須です。
 
-最も簡単にあなたのLinux環境を壊すことなく実行させる方法は、「[1. Dockerで実行する場合](#1-run-on-docker)」に従い、[Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)を使用し、[Docker](https://www.docker.com/)上に環境を構築することです。
+最も簡単にあなたのLinux環境を壊すことなく実行させる方法は、「[1. Dockerで実行する場合](#1-dockerで実行する場合)」に従い、[Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)を使用し、[Docker](https://www.docker.com/)上に環境を構築することです。
 
 特に、CNTKの場合、異なる引数を指定したトレイニングプロセスを並行に実行させたい時はDockerを使うと便利です。　なぜならば、CNTKの並行処理はMPIで実装されているため、プロセスを実行する際には`mpiexec`を使用して`mpiexec --npernode $num_workers python training.py`というように実行させなければならないからです[<sup>[1]</sip>](#cntk_mpi)。
 
-もしDockerを使用せずLinuxに直接インストールしたい場合は、「[2. Docker以外の環境で実行する場合](#2-run-on-your-environment-without-docker)」に従ってインストールすることができます。
+もしDockerを使用せずLinuxに直接インストールしたい場合は、「[2. Docker以外の環境で実行する場合](#2-docker以外の環境で実行する場合)」に従ってインストールすることができます。
 
 もし上記以外の方法でインストールしたい場合、[installディレクトリ](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、フレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各フレームワークのバージョンを厳密に指定しているからです。
 
@@ -26,7 +26,7 @@
 
 この実装では、[Deep Mindのalewrap](https://github.com/deepmind/alewrap)をPythonで再現した[alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py)を使用していますが、[Open AIのGym](https://github.com/openai/gym)も使用することができます。　alewrap_pyはこのモジュールのサブモジュールなので自動的にインストールすることが可能ですが、Gymはそれとは別にインストールする必要があります（しかし、必須ではありません）。<br>
 しかし、Gymをインストールすることのアドバンテージは、alewrap_py版との比較ができることだけでなく、Gymに同梱されているatari-pyが、全てのAtariゲームモジュールを同梱しているため、それらのモジュールをインターネット上で探す必要が無くなるということです。<br>
-もし「[1. Dockerで実行する場合](#1-Dockerで実行する場合)」または「[2. Docker以外の環境で実行する場合](#2-Docker以外の環境で実行する場合)」に従ってインストールすると、Gymは自動的にインストールされます。
+もし「[1. Dockerで実行する場合](#1-dockerで実行する場合)」または「[2. Docker以外の環境で実行する場合](#2-docker以外の環境で実行する場合)」に従ってインストールすると、Gymは自動的にインストールされます。
 
 ## Installation手順
 
@@ -74,9 +74,9 @@ root@xxxxxx:/# cd DQM
 root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name> [options]
 ```
 
-### 2. Run on your environment without Docker
+### 2. Docker以外の環境で実行する場合
 
-#### 2-1. Install CUDA and CUDNN
+#### 2-1. CUDAとcuDNNのインストール
 
 GPUを使用する場合は、次のサイトに従いCUDAとcuDNNをインストールする必要があります:
 
