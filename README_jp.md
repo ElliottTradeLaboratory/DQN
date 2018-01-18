@@ -20,13 +20,13 @@
 
 もしDockerを使用せずLinuxに直接インストールしたい場合は、「[2. Docker以外の環境で実行する場合](#2-run-on-your-environment-without-docker)」に従ってインストールすることができます。
 
-もし上記以外の方法でインストールしたい場合、[installディレクトリ](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、フレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各フレームワークのバージョンは厳密に指定しているからです。
+もし上記以外の方法でインストールしたい場合、[installディレクトリ](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、フレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各フレームワークのバージョンを厳密に指定しているからです。
 
 ### ◇Arcade Learning Environment
 
-この実装では、[Deep Mindのxitari](https://github.com/deepmind/xitari)のforkである[alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py)を使用していますが、[Open AIのGym](https://github.com/openai/gym)も使用することができます。　alewrap_pyとxitariはこのモジュールのサブモジュールなので、それらを自動的にインストールすることが可能ですが、Gymはそれとは別にインストールする必要があります（しかし、必須ではありません）。<br>
+この実装では、[Deep Mindのalewrap](https://github.com/deepmind/alewrap)をPythonで再現した[alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py)を使用していますが、[Open AIのGym](https://github.com/openai/gym)も使用することができます。　alewrap_pyはこのモジュールのサブモジュールなので自動的にインストールすることが可能ですが、Gymはそれとは別にインストールする必要があります（しかし、必須ではありません）。<br>
 しかし、Gymをインストールすることのアドバンテージは、alewrap_py版との比較ができることだけでなく、Gymに同梱されているatari-pyが、全てのAtariゲームモジュールを同梱しているため、それらのモジュールをインターネット上で探す必要が無くなるということです。<br>
-もし「[1. Dockerで実行する場合](#1-run-on-docker)」または「[2. Docker以外の環境で実行する場合](#2-run-on-your-environment-without-docker)」に従ってインストールすると、Gymは自動的にインストールされます。
+もし「[1. Dockerで実行する場合](#1-Dockerで実行する場合)」または「[2. Docker以外の環境で実行する場合](#2-Docker以外の環境で実行する場合)」に従ってインストールすると、Gymは自動的にインストールされます。
 
 ## Installation手順
 
