@@ -72,7 +72,7 @@ $ cd <clone root dir>/DQN
 $ ./run_docker <framework name> [--logdir <log dir>]
 mount /mnt/log_dir --> <log dir> if specified --logdir otherwise /tmp 
 root@xxxxxx:/# cd DQM
-root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name>
+root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name> [options]
 ```
 
 ### 2. Run on your environment without Docker
@@ -107,7 +107,7 @@ NOTE: install_your_linux.sh calls steup.sh. setup.sh automatically creates symbo
 
 ```
 $ cd <clone root dir>/DQN
-$ ./run --backend <backend name> --env <game name>
+$ ./run --backend <backend name> --env <game name> [options]
 ```
 
 
