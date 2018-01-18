@@ -1,6 +1,6 @@
-# DQN implementation with DQN3.0-level performance through Python using PyTorch, Tensorflow, CNTK and MXNet.
+# DQN implementation with DQN3.0-level performance through Python using PyTorch, MXNet, Tensorflow and CNTK　[(日本語)](README_jp.md)
 
-This repository including Deep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) implementations using currentry major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK(both on Keras).<br>
+This repository including Deep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) (DQN)implementations using currentry major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK(both on Keras).<br>
 These implementation methods and performance are exactly the same as [DQN3.0](https://github.com/deepmind/dqn) which is the reference implementation by [Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
 
 See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
@@ -12,9 +12,9 @@ See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
 
 ### ◇Deep Learning Frameworks
 This implementation uses multiple frameworks, but you can install and run all of them, or you can install and run only one framework.
-However, only [Tensorflow](https://www.tensorflow.org/) is necessary for logging.
+However, only Tensorflow is necessary for logging.
 
-The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) onto Docker as follows "[1. Run on Docler](#1-run-on-docker)".
+The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) onto Docker as follows "[1. Run on Docker](#1-run-on-docker)".
 
 Particularly, in the case of CNTK, it is useful to use Docker to running parallel train when you needs running parallel with different arguments.　Because, parallelization in CNTK is implemented with MPI, therefore you need to use `mpiexec` and execute like `mpiexec --npernode $num_workers python training.py`[<sup>[1]</sip>](#cntk_mpi).
 
@@ -72,7 +72,7 @@ $ cd <clone root dir>/DQN
 $ ./run_docker <framework name> [--logdir <log dir>]
 mount /mnt/log_dir --> <log dir> if specified --logdir otherwise /tmp 
 root@xxxxxx:/# cd DQM
-root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name>
+root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name> [options]
 ```
 
 ### 2. Run on your environment without Docker
@@ -95,26 +95,19 @@ $ cd <clone root dir>
 $ git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 ```
 
-#### 2-3. Install dependencies
+#### 2-3. Run Install Script
 
 ```
 $ cd <clone root dir>/DQN/install
-$ ./dependencies.sh
+$ ./install_your_linux.sh <framework name> or all
 ```
+NOTE: install_your_linux.sh calls setup.sh.　setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms of atari_py is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
 
-#### 2-4. Install Python libraries
-
-```
-$ cd <clone root dir>/DQN/install
-$ ./setup.sh <framewrok name> or all
-```
-NOTE: setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms of atari_py is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
-
-#### 2-5. Run DQN
+#### 2-4. Run DQN
 
 ```
 $ cd <clone root dir>/DQN
-$ ./run --backend <backend name> --env <game name>
+$ ./run --backend <backend name> --env <game name> [options]
 ```
 
 
@@ -131,10 +124,10 @@ $ tensorboard --logdir .
 
 _\<framework name\>_ | Install frameworks| CUDA | cuDNN
 ---------------|-----|-----|-----
-`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
-`tensorflow` | Tensorflow 1.4.1 | 8.0 | 6.0
-`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1 | 8.0 | 6.0
-`mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1 | 8.0 | 5.1
+`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
+`tensorflow` | Tensorflow-gpu 1.4.1 | 8.0 | 6.0
+`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0
+`mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
 
 * _\<game name\>_ is:<br>
 　For alewrap_py,  a module name of the game exclude `.bin`(e.g. `breakout`).<br>
