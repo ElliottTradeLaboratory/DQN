@@ -25,8 +25,8 @@ If you want to install other way, you can refer to see install scripts in [insta
 
 ### ◇Arcade Learning Environment
 
-This implementation uses [alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py) on fork of [Deep Mind's xitari](https://github.com/deepmind/xitari), but you can also use [Open AI's Gym](https://github.com/openai/gym).<br>
-Since alewrap_py and xitari are submodules of this repository, you will be able to install they automatically, but Gym needs to be installed separately (but it is not required).<br>
+This implementation uses [alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py) that reproduced [Deep Mind's alewrap](https://github.com/deepmind/alewrap) on python, but you can also use [Open AI's Gym](https://github.com/openai/gym).<br>
+Since alewrap_py is submodules of this repository, you will be able to install it automatically, but Gym needs to be installed separately (but it is not required).<br>
 However, the advantage of installing the gym is not only comparable with the alewrap_py version, but since all Atari game modules (e.g. breakout.bin) are bundled with atari_py that is bundled with Gym, There is also no need to search in to get them.<br>
 If you follows to "[1. Run on Docler](#1-run-on-docker)" or "[2. Run on your environment without Docker](#2-run-on-your-environment-without-docker)", Gym will be automatically installed .
 
@@ -77,7 +77,7 @@ root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name> [options]
 
 ### 2. Run on your environment without Docker
 
-#### 2-1. Install CUDA and CUDNN
+#### 2-1. Install CUDA and cuDNN
 
 If you want to run with GPU, you need to install CUDA and cuDNN according to the following site:
 
