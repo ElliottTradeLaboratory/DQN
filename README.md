@@ -1,6 +1,6 @@
-# DQN implementation with DQN3.0-level performance through Python using PyTorch, Tensorflow, CNTK and MXNet.
+# DQN implementation with DQN3.0-level performance through Python using PyTorch, MXNet, Tensorflow and CNTK.[(日本語)](README_jp.md)
 
-This repository including Deep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) implementations using currentry major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK(both on Keras).<br>
+This repository including Deep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) (DQN)implementations using currentry major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK(both on Keras).<br>
 These implementation methods and performance are exactly the same as [DQN3.0](https://github.com/deepmind/dqn) which is the reference implementation by [Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
 
 See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
@@ -12,9 +12,9 @@ See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
 
 ### ◇Deep Learning Frameworks
 This implementation uses multiple frameworks, but you can install and run all of them, or you can install and run only one framework.
-However, only [Tensorflow](https://www.tensorflow.org/) is necessary for logging.
+However, only Tensorflow is necessary for logging.
 
-The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) onto Docker as follows "[1. Run on Docler](#1-run-on-docker)".
+The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) onto Docker as follows "[1. Run on Docker](#1-run-on-docker)".
 
 Particularly, in the case of CNTK, it is useful to use Docker to running parallel train when you needs running parallel with different arguments.　Because, parallelization in CNTK is implemented with MPI, therefore you need to use `mpiexec` and execute like `mpiexec --npernode $num_workers python training.py`[<sup>[1]</sip>](#cntk_mpi).
 
