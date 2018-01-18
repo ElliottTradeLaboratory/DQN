@@ -1,4 +1,4 @@
-# PyTorch、MXNet、TensorflowおよびCNTKを使用した、PythonによるDQN3.0レベルのパフォーマンスを有するDQN実装
+# PyTorch、MXNet、TensorflowおよびCNTKを使用した、PythonによるDQN3.0レベルのパフォーマンスを有するDQN実装([English](README.md))
 
 このリポジトリにはPyTorch, MXNet, Tensorflow and CNTK(両者はKeras上で)といったメジャーなDeep Learningフレームワークを使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
 これらの実装方法とパフォーマンスは、[Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)の参照実装である[DQN3.0](https://github.com/deepmind/dqn)と全く同じです.
@@ -85,7 +85,7 @@ CUDA  : ダウンロード: https://developer.nvidia.com/cuda-toolkit-archive<br
 cuDNN : ダウンロー: https://developer.nvidia.com/rdp/cudnn-download<br>
 　　　　インストールガイド: [cuDNN5.1](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v5.1/prod/doc/cudnn_install.txt?4Y7u0FqHrotFcmVuCKOpM2anE-n8iMSBbn9WCrSMFTUFQzXCSGfEIkdPvFi0yoyTYBTKJzIiKiVwvgSYDqnfDzpew8WT1PdIAnXOeStXoMX2meBxzvBWZmNaVc3dt5u8Cv96mWCoTVp87ppWFM22UG1vqwAgwu4pR-W7m7fuHGOfIMYr), [cuDNN6.0](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/Doc/cudnn_install-2.txt?5e1fCcgO0eYlHY7zwZH-LBiJJBZRX4pF_wv1Gf3hq1lpsF6Q0pvkc0BkdZKVwfxaT-m8iAjLn0ZV6NRh_-jGp8GCMDnmUmCHtxQ82UQnwQVlrzZebTFGRm5q90Ic8S7UC2SMG0Z-NXlwLQfqOpr7l6YErWhJB1Ai2dc4ggsXjPFAtEx_)
 
-注）CUDAとcuDNNのバージョンは使用するフレームワークのバージョンに依存します。 詳しくは[説明](#description)をご覧ください。
+注）CUDAとcuDNNのバージョンは使用するフレームワークのバージョンに依存します。 詳しくは[説明](#説明)をご覧ください。
 
 #### 2-2. リポジトリのクローン
 
@@ -100,3 +100,48 @@ $ git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 $ cd <clone root dir>/DQN/install
 $ ./install_your_linux.sh <framework name> or all
 ```
+#### 2-4. Run DQN
+
+```
+$ cd <clone root dir>/DQN
+$ ./run --backend <backend name> --env <game name> [options]
+```
+
+
+### 3. Visualization
+```
+$ cd <log dir>/<game name>
+$ tensorboard --logdir .
+```
+
+### 説明
+* _\<clone root dir\>_ は、githubよりリポジトリをクローンするための任意のディレクトリです。<br>
+* _\<log dir\>_ はTensorbord用のログを出力するための任意のディレクトリです。　デフォルトは`/tmp`。<br>
+* _\<framework name\>_ は以下になります。
+
+_\<framework name\>_ | インストールされるフレームワーク| CUDA | cuDNN
+---------------|-----|-----|-----
+`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
+`tensorflow` | Tensorflow-gpu 1.4.1 | 8.0 | 6.0
+`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0
+`mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
+
+* _\<game name\>_ は、<br>
+　alewrap_pyの場合,  `.bin`を除いたゲームモジュール名(e.g. `breakout`)。<br>
+　Gymの場合, GymのEnv名(e.g. `Breakout-v0`)。<br>
+* _\<backend name\>_ は、以下になります。
+
+_\<backend name\>_ | ネットワークで使用するフレームワーク
+---------------|----------
+`pytorch` | PyTorch with torch.nn package
+`pytorch_legacy` | PyTorch with torch.legacy.nn package
+`tensorflow` | Tensorflow
+`cntk` | CNTK
+`mxnet` | MXNet
+
+
+
+***
+<a name="cntk_mpi"><sup>[1]</sup></a> https://docs.microsoft.com/en-us/cognitive-toolkit/Multiple-GPUs-and-machines<br>
+<a name="pytorch_cuda"><sup>[2]</sup></a> 2018年1月時点でTensorflowはCUDA9.0では動作しないためです。<br>
+<a name="tensorflow"><sup>[3]</sup></a> 2018年1月時点でPython3.6で実行する場合は、次のようにTensorflow1.3.0をインストールする必要があります。<br>[GPU用]pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl<br>[CPU用]pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow_cpu-1.3.0-cp36-cp36m-linux_x86_64.whl.<br>
