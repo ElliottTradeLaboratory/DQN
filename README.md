@@ -50,7 +50,7 @@ NOTE: If you want see other source code such as alewrap_py and xitari, you can s
 
 #### 1-3. Build Docker images
 
-Build docker image(s) for any framework as follows:
+Build Docker image(s) for any framework as follows:
 ```
 $ cd <clone root dir>/DQN/install
 $ ./build_docker_images <framework name> or all
@@ -86,7 +86,7 @@ CUDA  : Download from: https://developer.nvidia.com/cuda-toolkit-archive<br>
 cuDNN : Download from: https://developer.nvidia.com/rdp/cudnn-download<br>
 　　　　Install guid: [cuDNN5.1](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v5.1/prod/doc/cudnn_install.txt?4Y7u0FqHrotFcmVuCKOpM2anE-n8iMSBbn9WCrSMFTUFQzXCSGfEIkdPvFi0yoyTYBTKJzIiKiVwvgSYDqnfDzpew8WT1PdIAnXOeStXoMX2meBxzvBWZmNaVc3dt5u8Cv96mWCoTVp87ppWFM22UG1vqwAgwu4pR-W7m7fuHGOfIMYr), [cuDNN6.0](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/Doc/cudnn_install-2.txt?5e1fCcgO0eYlHY7zwZH-LBiJJBZRX4pF_wv1Gf3hq1lpsF6Q0pvkc0BkdZKVwfxaT-m8iAjLn0ZV6NRh_-jGp8GCMDnmUmCHtxQ82UQnwQVlrzZebTFGRm5q90Ic8S7UC2SMG0Z-NXlwLQfqOpr7l6YErWhJB1Ai2dc4ggsXjPFAtEx_)
 
-NOTE: The version of CUDA and cuDNN you should install depends on the version of the framework you need.
+NOTE: The version of CUDA and cuDNN you should install depends on the version of the framework you need.　See [Description](#description) more detail.
 
 #### 2-2. Clone repository
 
@@ -101,7 +101,6 @@ $ git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 $ cd <clone root dir>/DQN/install
 $ ./install_your_linux.sh <framework name> or all
 ```
-NOTE: install_your_linux.sh calls setup.sh.　setup.sh automatically creates symbolic links to the Atari game modules included in the atari_py that is included in OpenAI Gym. 　setup.sh expected path to atari_roms of atari_py is "/usr/local/lib/python3.5/dist-packages/atari_py/atari_roms/*.bin".　If you installed atari_py to other path, you needs edit to line 19 in setup.sh to your atari_py install path. 
 
 #### 2-4. Run DQN
 
