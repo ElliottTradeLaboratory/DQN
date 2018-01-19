@@ -125,8 +125,8 @@ $ tensorboard --logdir .
 _\<framework name\>_ | Install frameworks| CUDA | cuDNN
 ---------------|-----|-----|-----
 `pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
-`tensorflow` | Tensorflow-gpu 1.4.1 | 8.0 | 6.0
-`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0
+`tensorflow` | Tensorflow-gpu 1.4.1<br>Keras 2.1.2 | 8.0 | 6.0
+`cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu)<br>Keras 2.1.2 | 8.0 | 6.0
 `mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
 
 * _\<game name\>_ is:<br>
@@ -138,8 +138,8 @@ _\<backend name\>_ | Framework used for networks
 ---------------|----------
 `pytorch` | PyTorch with torch.nn package
 `pytorch_legacy` | PyTorch with torch.legacy.nn package
-`tensorflow` | Tensorflow
-`cntk` | CNTK
+`tensorflow` | Tensorflow with Keras
+`cntk` | CNTK with Keras
 `mxnet` | MXNet
 
 
