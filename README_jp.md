@@ -1,6 +1,6 @@
 # PyTorch、MXNet、TensorflowおよびCNTKを使用した、PythonによるDQN3.0レベルのパフォーマンスを有するDQN実装
 
-[For English](README.md)
+[<sup>For English</sup>](README.md)
 
 このリポジトリにはPyTorch, MXNet, Tensorflow and CNTK(両者はKeras上で)といったメジャーなDeep Learningフレームワークを使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
 各フレームワークはネットワーク部、および最適化部の実装に用いられ、共通のDQNエージェントとトレーニングプラットフォーム上で学習することで、同一条件下での各フレームワークの性能比較が可能となっています。<br>
