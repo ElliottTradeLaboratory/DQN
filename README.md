@@ -1,4 +1,6 @@
-# DQN implementation with DQN3.0-level performance through Python using PyTorch, MXNet, Tensorflow and CNTK　[(日本語)](README_jp.md)
+# DQN implementation with DQN3.0-level performance through Python using PyTorch, MXNet, Tensorflow and CNTK
+
+[<sup>日本語版はこちら</sup>](README_jp.md)
 
 This repository including Deep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) (DQN)implementations using currentry major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK(both on Keras).<br>
 Each framework is used for the implementation of the network part and the optimization part, and learning on the common DQN agent and training platform makes it possible to compare the performance of each framework under the same condition.<br>
