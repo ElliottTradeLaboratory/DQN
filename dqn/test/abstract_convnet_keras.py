@@ -89,14 +89,16 @@ class AbstractTestKerasConvnet(object):
         
         get_random().manualSeed(1)
 
+        from pytorch_extensions import setup
         from convnet_pytorch import PyTorchConvnet
         args.backend='pytorch_legacy'
+        setup(args)
         pytorch_network = PyTorchConvnet(args, "network")
 
         py_params, _ = pytorch_network.model.parameters()
         for p, py in zip(params, [p.numpy() for p in py_params]):
-            print('******* mxnet {}******')
-            print(p)
+            print('******* cntk {}******')
+            print(p.T)
             print('******* pytorch {}******')
             print(py)
             assert_equal(p.T, py, use_float_equal=True, verbose=10)
