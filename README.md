@@ -2,9 +2,9 @@
 
 [<sup>日本語版はこちら</sup>](README_jp.md)
 
-This repository including Deep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf) (DQN)implementations using currentry major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK(both on Keras).<br>
-Each framework is used for the implementation of the network part and the optimization part, and learning on the common DQN agent and training scheme makes it possible to compare the performance of each framework under the same condition.<br>
-These implementation methods and performance are exactly the same as [DQN3.0](https://github.com/deepmind/dqn) which is the reference implementation by [Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)
+This repository contains an implementation of Deep Q-Network ([(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)) (DQN) using major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK (both on Keras) .
+Each framework is used for the implementation of the network part and optimization part, and by learning on the common DQN agent and training scheme, make it possible to compare the performance of each framework under the same condition.
+These implementation methods and performance are exactly the same as [DQN3.0](https://github.com/deepmind/dqn) which is the reference implementation of  [Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf).
 
 See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
 
