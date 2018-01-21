@@ -2,8 +2,8 @@
 
 [<sup>For English.</sup>](README.md)
 
-このリポジトリにはPyTorch, MXNet, Tensorflow and CNTK(両者はKeras上で)といったメジャーなDeep Learningフレームワークを使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
-各フレームワークはネットワーク部、および最適化部の実装に用いられ、共通のDQNエージェントとトレーニング・スキーム上で学習することで、同一条件下での各フレームワークの性能比較が可能となっています。<br>
+このリポジトリにはPyTorch, MXNet, Tensorflow and CNTK(両者はKeras上で)といったメジャーなDeep Learningフレームワーク(以下、DLフレームワーク)を使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
+各DLフレームワークは、DQNエージェントを有するトレーニング・コンテキストから呼び出されるストラテジー ― ネットワーク部および最適化部 ― の実装に用いられ、同一条件下での各DLフレームワークの性能比較が可能となっています。<br>
 これらの実装方法とパフォーマンスは、[Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)の参照実装である[DQN3.0](https://github.com/deepmind/dqn)と全く同じです.
 
 詳細は[wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki/ホーム)を参照してください。
@@ -15,7 +15,7 @@
 
 ### Deep Learningフレームワーク
 
-この実装は複数のフレームワークを使用していますが、それらすべてをインストールすることも、または1つのフレームワークのみをインストールすることも可能です。　しかし、Tensorflowはロギングのために必須です。
+この実装は複数のDLフレームワークを使用していますが、それらすべてをインストールすることも、または1つのDLフレームワークのみをインストールすることも可能です。　しかし、Tensorflowはロギングのために必須です。
 
 最も簡単にあなたのLinux環境を壊すことなく実行させる方法は、「[1. Dockerで実行する場合](#1-dockerで実行する場合)」に従い、[Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)を使用し、[Docker](https://www.docker.com/)上に環境を構築することです。
 
@@ -23,7 +23,7 @@
 
 もしDockerを使用せずLinuxに直接インストールしたい場合は、「[2. Docker以外の環境で実行する場合](#2-docker以外の環境で実行する場合)」に従ってインストールすることができます。
 
-もし上記以外の方法でインストールしたい場合、[installディレクトリ](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、フレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各フレームワークのバージョンを厳密に指定しているからです。
+もし上記以外の方法でインストールしたい場合、[installディレクトリ](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、DLフレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がDLフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各DLフレームワークのバージョンを厳密に指定しているからです。
 
 ### ◇Arcade Learning Environment
 
@@ -52,7 +52,7 @@ git clone https://github.com/ElliottTradeLaboratory/DQN.git
 
 #### 1-3. Docler imageのビルド
 
-各フレームワーク用のDocker imageを次の手順に従いビルドします:
+各DLフレームワーク用のDocker imageを次の手順に従いビルドします:
 ```
 $ cd <clone root dir>/DQN/install
 $ ./build_docker_images <framework name> or all
@@ -88,7 +88,7 @@ CUDA  : ダウンロード: https://developer.nvidia.com/cuda-toolkit-archive<br
 cuDNN : ダウンロー: https://developer.nvidia.com/rdp/cudnn-download<br>
 　　　　インストールガイド: [cuDNN5.1](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v5.1/prod/doc/cudnn_install.txt?4Y7u0FqHrotFcmVuCKOpM2anE-n8iMSBbn9WCrSMFTUFQzXCSGfEIkdPvFi0yoyTYBTKJzIiKiVwvgSYDqnfDzpew8WT1PdIAnXOeStXoMX2meBxzvBWZmNaVc3dt5u8Cv96mWCoTVp87ppWFM22UG1vqwAgwu4pR-W7m7fuHGOfIMYr), [cuDNN6.0](http://developer2.download.nvidia.com/compute/machine-learning/cudnn/secure/v6/prod/Doc/cudnn_install-2.txt?5e1fCcgO0eYlHY7zwZH-LBiJJBZRX4pF_wv1Gf3hq1lpsF6Q0pvkc0BkdZKVwfxaT-m8iAjLn0ZV6NRh_-jGp8GCMDnmUmCHtxQ82UQnwQVlrzZebTFGRm5q90Ic8S7UC2SMG0Z-NXlwLQfqOpr7l6YErWhJB1Ai2dc4ggsXjPFAtEx_)
 
-注）CUDAとcuDNNのバージョンは使用するフレームワークのバージョンに依存します。 詳しくは[説明](#説明)をご覧ください。
+注）CUDAとcuDNNのバージョンは使用するDLフレームワークのバージョンに依存します。 詳しくは[説明](#説明)をご覧ください。
 
 #### 2-2. リポジトリのクローン
 
@@ -122,7 +122,7 @@ $ tensorboard --logdir .
 * _\<log dir\>_ はTensorbord用のログを出力するための任意のディレクトリです。　デフォルトは`/tmp`。<br>
 * _\<framework name\>_ は以下になります。
 
-_\<framework name\>_ | インストールされるフレームワーク| CUDA | cuDNN
+_\<framework name\>_ | インストールされるDLフレームワーク| CUDA | cuDNN
 ---------------|-----|-----|-----
 `pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
 `mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
@@ -134,7 +134,7 @@ _\<framework name\>_ | インストールされるフレームワーク| CUDA | 
 　Gymの場合, GymのEnv名(e.g. `Breakout-v0`)。<br>
 * _\<backend name\>_ は、以下になります。
 
-_\<backend name\>_ | ネットワークで使用するフレームワーク
+_\<backend name\>_ | ネットワークで使用するDLフレームワーク
 ---------------|----------
 `pytorch` | PyTorch with torch.nn package
 `pytorch_legacy` | PyTorch with torch.legacy.nn package
