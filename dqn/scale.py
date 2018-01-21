@@ -116,6 +116,8 @@ class ScaleTensorflow(Scale):
 
         return x
 
+    def __del__(self):
+        self.sess = None
 
 class ScalePIL(Scale):
     def __init__(self, height, width, args):
