@@ -76,7 +76,7 @@ class ScaleCV2(Scale):
     def _forward(self, x):
         assert self.inter is not None
         x = self.cv2.cvtColor(x, self.cv2.COLOR_RGB2GRAY)
-        x = self.cv2.resize(x, self.to_shape, self.inter)
+        x = self.cv2.resize(x, self.to_shape, interpolation=self.inter)
         return x
 
 class ScaleTensorflow(Scale):
@@ -169,8 +169,13 @@ class ScaleScikit(Scale):
     def _forward(self, x):
         # scikit-image does not have grayscale function
         # as Y = 0.299R + 0.587G + 0.114B.
+        if not self.normalized:
+            x = x.astype(np.uint8)
+        print(x.max(), x.min())
         x = self.rgb2y(x)
         x = self.resize(x, (self.height, self.width), order=self.inter)
+        if not self.normalized:
+            x = x.astype(np.float32)
         return x
 
 class ScaleMix(Scale):

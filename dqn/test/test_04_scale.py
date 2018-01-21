@@ -64,8 +64,10 @@ class TestScale(unittest.TestCase):
         import cv2
         
         get_random('pytorch', 1)
-        env = get_env(dict(env='space_invaders',actrep=4))
+        env = get_env(dict(env='space_invaders',actrep=4, screen_normalize='env', maximization='env'))
         s, r, t, info =env.getState()
+        
+        print(s.max(), s.min())
         
         for preproc in preprocs:
             inter = inters[preproc]
