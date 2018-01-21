@@ -85,7 +85,7 @@ def _parse_arguments():
                         help="Where to maximize.")
     parser.add_argument('--preproc',
                         type=str,
-                        default='tensorflow',
+                        default='cv2',
                         help="Specifies use image processor in ['tensorlfow', 'PIL', 'cv2', 'image', 'scikit'] "
                         "or mix these, for example 'PIL:cv2' that means max(PIL output, cv2 output)." )
     parser.add_argument('--inter',
