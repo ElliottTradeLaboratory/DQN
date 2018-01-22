@@ -13,16 +13,35 @@
 
 ![システム概要図](https://github.com/ElliottTradeLaboratory/DQN/wiki/images/system_overview.jpg)
 
-<a name="Figure1">Figure 1: システム概要図</a>
+<a name="Figure1">Figure 1:　システム概要図</a>
 
 <br>
 
 ## インストール概要
 
 * インストールにはLinuxが必須です。
-* GPUの仕様を強く推奨します。　なぜならば、GTX1080it上で実行した場合500万ステップの学習に約5日間を要すからです。
+* GPUの仕様を強く推奨します。　なぜならば、以下のスペックのPC上での500万ステップの学習に約5日間を要すからです。
 
-### Deep Learningフレームワーク
+<a name="Table1"/>Table 1:　動作確認PCスペック
+
+<table>
+  <tr>
+    <td>CPU</td><td>Intel Core i7-7700K (Kaby Lake)</td>
+  </tr>
+  <tr>
+    <td>Mem</td><td>64GB</td>
+  </tr>
+  <tr>
+    <td>GPU</td><td>GTX1080ti×2</td>
+  </tr>
+  <tr>
+    <td>OS</td><td>Ubuntu 16.04</td>
+  </tr>
+</table>
+
+<br>
+
+### ◇Deep Learningフレームワーク
 
 この実装は複数のDLフレームワークを使用していますが、それらすべてをインストールすることも、または1つのDLフレームワークのみをインストールすることも可能です。　しかし、Tensorflowはロギングのために必須です。
 
