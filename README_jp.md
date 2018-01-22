@@ -5,7 +5,7 @@
 ## 概要
 
 
-このリポジトリにはPyTorch, MXNet, Tensorflow and CNTK(後の2つはKeras上で)といったメジャーなDeep Learningフレームワーク(以下、DLフレームワーク)を使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
+このリポジトリにはPyTorch, MXNet, TensorflowそしてCNTK(後の2つはKeras上で)といったメジャーなDeep Learningフレームワーク(以下、DLフレームワーク)を使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
 各DLフレームワークは、DQNエージェントを有するトレーニング・コンテキストから呼び出されるストラテジー ― ネットワーク部および最適化部 ― の実装に用いられ、同一条件下での各DLフレームワークの性能比較が可能となっています([Figure 1](#Figure1))。<br>
 これらの実装方法とパフォーマンスは、[Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)の参照実装である[DQN3.0](https://github.com/deepmind/dqn)と全く同じです.
 
