@@ -10,4 +10,4 @@ ENV=$1
 shift
 FILE_NAME=$1
 shift
-./run --backend $BACKEND --env $ENV --file_name $FILE_NAME --test  --test_recording --test_recording_q_value --video_freq 1 --logdir /tmp $@
+./run ${BACKEND} ${ENV} --file_name ${FILE_NAME} --test  --test_recording --test_recording_q_value --video_freq 1 --logdir /tmp $@

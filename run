@@ -10,6 +10,9 @@ BACKEND=$1
 shift
 ENV=$1
 shift
+echo "backend   : ${BACKEND}"
+echo "env       : ${ENV}"
+echo "other     : $@"
 
 cd dqn
 python3 train_agent.py --backend $BACKEND --env $ENV $@

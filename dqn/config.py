@@ -220,8 +220,11 @@ def _dqn30_setting(opt):
 
 
     if isinstance(opt.actrep, str):
-        assert re.match(r"^[\[\(][0-9],[0-9][)\]]$", opt.actrep), '--actrep is expected number or tuple eg.(2,5), but got {}.'.format(opt.actrep)
-        opt.actrep = tuple([int(v) for v in re.split(r"[\(\)\,]", opt.actrep)[1:3]])
+        try:
+            opt.actrep = int(opt.actrep)
+        except ValueError:
+            assert re.match(r"^[\[\(][0-9],[0-9][)\]]$", opt.actrep), '--actrep is expected number or tuple eg.(2,5), but got {}.'.format(opt.actrep)
+            opt.actrep = tuple([int(v) for v in re.split(r"[\(\)\,]", opt.actrep)[1:3]])
 
     # learning rate params (fixed)
     opt.lr = 0.00025
