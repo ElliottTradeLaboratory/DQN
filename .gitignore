@@ -4,7 +4,6 @@ logs/
 *.pyc
 *.dat
 *.xlsx
-*.ipynb
 *.avi
 *.mp4
 *.png
@@ -18,3 +17,4 @@ logs/
 a.txt
 b.txt
 c.txt
+.ipynb_checkpoints
