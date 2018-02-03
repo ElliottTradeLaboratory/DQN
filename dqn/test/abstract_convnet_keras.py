@@ -107,19 +107,33 @@ class AbstractTestKerasConvnet(object):
     def test_02_forward(self):
         sleep(1)
         from convnet_keras import KerasConvnet
+        from common import get_preprocess 
+        import cv2
+
+
 
         from config import get_opt
-        sys.argv += ['--backend', self.backend, '--env', 'breakout', '--debug', '--gpu', '-1', '--random_type', 'pytorch']
+        sys.argv += ['--backend', self.backend,
+                     '--env', 'breakout',
+                     '--debug',
+                     '--gpu', '-1',
+                     #'--random_type', 'pytorch',
+                     '--relu',
+                     '--use_keras_relu' ,
+                     ]
         args = get_opt()
         args.actions   = [0,1,3,4]
         args.n_actions   = 4
 
         network = KerasConvnet(args, 'network')
 
-        s = np.ones((1,4,84,84), dtype=np.float32) / 255.0
+        s = cv2.imread('./test_img/screen.png')
+
+        s = get_preprocess('tensorflow')(84, 84, Namespace(inter='AREA')).forward(np.float32(s)/255)
         
-        predict = network.forward(s)
+        predict = network.forward(np.array([[s,s,s,s]]))
         
+        print(predict)
         assert isinstance(predict, np.ndarray), print(type(predict))
         assert_equal(predict.shape, (1,4))
 
@@ -244,7 +258,10 @@ class AbstractTestKerasConvnet(object):
                      '--env', 'breakout',
                      '--logdir', '/tmp',
                      '--gpu', '0',
-                     '--random_type', 'torch',
+                     '--relu',
+                     #'--use_keras_relu',
+                     '--preproc', 'tensorflow',
+                     '--inter', 'AREA',
                      '--loss_function', 'DQN3.0',
                      '--optimizer', 'DQN3.0',
                      #'--tf_debug'
@@ -307,9 +324,9 @@ class AbstractTestKerasConvnet(object):
             print(getQUpdate_vals[-1])
             #print(np.array(getQUpdate_vals[-1]).sum(0))
             print("q_all bias grad")
-            print(network_grads[-1])
+            print(network_grads[-3])
             print("q_all bias")
-            print(network_vars[-1])
+            print(network_vars[-3])
 
             # getQUpdate vars
             fname = './dqn3.0_dump/getQUpdate_{:010d}.dat'.format(step)

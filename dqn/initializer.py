@@ -38,7 +38,12 @@ def _compute_fans(shape, data_format):
 
     return fan_in, fan_out
 
-class Keras_DefaultInitializer:
+
+class Initializer:
+    channel_last = True
+
+
+class Keras_DefaultInitializer(Initializer):
     kernel_initializer = 'glorot_uniform'
 
     bias_initializer = 'zeros'
@@ -47,9 +52,8 @@ class Keras_DefaultInitializer:
     def print():
         print('initializer : keras initializer (w:{}, b:{})'.format(Keras_DefaultInitializer.kernel_initializer, Keras_DefaultInitializer.bias_initializer))
 
-class Torch_nn_DefaultInitializer:
+class Torch_nn_DefaultInitializer(Initializer):
 
-    channel_last = True
     stdv = 0
 
     @staticmethod
@@ -85,10 +89,11 @@ class Torch_nn_DefaultInitializer:
     def print():
         print('initializer : torch nn layers default (w: uniform 1 / sqrt(fan_in), b: uniform 1 / sqrt(fan_in of weight))')
 
-class Uniform_Initializer:
+class Uniform_Initializer(Initializer):
     @staticmethod
     def kernel_initializer(shape, dtype=None):
-        fan_in, _ = _compute_fans(shape)
+        cls = Uniform_Initializer
+        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1 / np.sqrt(fan_in)
 
         from keras import backend as K
@@ -96,7 +101,8 @@ class Uniform_Initializer:
 
     @staticmethod
     def bias_initializer(shape, dtype=None):
-        fan_in, _ = _compute_fans(shape)
+        cls = Uniform_Initializer
+        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1 / np.sqrt(fan_in)
 
         from keras import backend as K
@@ -104,9 +110,9 @@ class Uniform_Initializer:
     
     @staticmethod
     def print():
-        print("initializer : torch nn layers default uniform (w: uniform 1 / sqrt(fan_in), b: uniform 1 / sqrt(prod(bias shape)))")
+        print("initializer : torch nn layers default uniform (w: uniform 1 / sqrt(fan_in), b: uniform sqrt(prod(bias shape))")
 
-class Deep_q_rl_Initializer:
+class Deep_q_rl_Initializer(Initializer):
     @staticmethod
     def kernel_initializer(shape, dtype=None):
         fan_in, _ = _compute_fans(shape)
