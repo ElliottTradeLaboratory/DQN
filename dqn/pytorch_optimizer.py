@@ -51,7 +51,7 @@ class PytorchLegacy_DQN30_Optimizer(object):
 
 
         # Compute max_a Q(s_2, a).
-        q2_all = self.target_network.model.forward_train(s2)
+        q2_all = self.target_network.forward_train(s2)
         if self.backend == 'pytorch':
             # detach autograd graph
             q2_all = q2_all.detach()
@@ -73,7 +73,7 @@ class PytorchLegacy_DQN30_Optimizer(object):
     def compute_q(self, s, a):
 
         # q = Q(s,a)
-        self.q_all = self.network.model.forward_train(s).float()
+        self.q_all = self.network.forward_train(s).float()
 
         # same as DQN3.0
         if isinstance(self.q_all, torch.autograd.Variable):
