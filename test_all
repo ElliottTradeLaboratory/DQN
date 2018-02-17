@@ -23,7 +23,7 @@ echo "env      : ${ENV}" >> $LOG_FILENAME
 echo "targetdir: ${TARGET_DIR}" >> $LOG_FILENAME
 
 for file in `dir -b ${TARGET_DIR}/*.dat`; do
-    echo "${file##*/}: `./test_run $BACKEND $ENV $file --test_episodes 1 $@ |grep 'test end'`" >> $LOG_FILENAME &
+    echo "${file##*/}: `./test_run $BACKEND $ENV $file $@ |grep 'test end'`" >> $LOG_FILENAME &
     sleep 5
 
     let RUN_COUNT++
