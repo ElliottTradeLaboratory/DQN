@@ -323,13 +323,13 @@ def get_opt():
                             opt.backend,
                             '-{}'.format(opt.run_memo) if opt.run_memo else '',
                             datetime_str)
-        return "{}/{}/{}".format(opt.logdir, opt.env, run_name), run_name
+        return "{}/{}/{}".format(opt.logdir, opt.env, run_name), run_name, datetime_str
 
-    opt.log_dir, opt.run_name = get_log_dir()
+    opt.log_dir, opt.run_name, datetime_str = get_log_dir()
     while os.path.exists(opt.log_dir):
         from time import time
         time.sleep(1)
-        opt.log_dir, opt.run_name = get_log_dir()
+        opt.log_dir, opt.run_name, datetime_str = get_log_dir()
 
     opt.monitor_dir = "{}/monitor".format(opt.log_dir)
     os.makedirs(opt.log_dir)
