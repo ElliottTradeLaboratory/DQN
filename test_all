@@ -16,14 +16,15 @@ TARGET_DIR=$1
 shift
 OTHERARGS=$@
 
-LOG_FILENAME="log_${BACKEND}_${ENV}_`date "+%Y%m%d_%H%M%S"`.log"
+LOG_FILENAME="log_${BACKEND}_${ENV}_`date "+%Y%m%d_%H%M%S"`"
 
 echo "backend  : ${BACKEND}" > $LOG_FILENAME
 echo "env      : ${ENV}" >> $LOG_FILENAME
 echo "targetdir: ${TARGET_DIR}" >> $LOG_FILENAME
 
 for file in `dir -b ${TARGET_DIR}/*.dat`; do
-    echo "${file##*/}: `./test_run $BACKEND $ENV $file $@ |grep 'test end'`" >> $LOG_FILENAME &
+    RUN_LOG=${LOG_FILENAME}_${RUN_COUNT}.log
+    echo "${file##*/}: `./test_run $BACKEND $ENV $file --test_episodes 100 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG_FILENAME}.log &
     sleep 5
 
     let RUN_COUNT++
