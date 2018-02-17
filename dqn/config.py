@@ -315,18 +315,23 @@ def get_opt():
     # log dir set up.
     from datetime import datetime
 
-    datetime_str = datetime.now().strftime('%Y%m%d-%H%M%S')
+    def get_log_dir():
+        datetime_str = datetime.now().strftime('%Y%m%d-%H%M%S')
 
-    opt.run_name = "{}-{}{}-{}".format(
-                        opt.env,
-                        opt.backend,
-                        '-{}'.format(opt.run_memo) if opt.run_memo else '',
-                        datetime_str)
-    opt.log_dir = "{}/{}/{}".format(opt.logdir, opt.env, opt.run_name)
-    opt.monitor_dir = "{}/monitor".format(opt.log_dir)
-    if os.path.exists(opt.log_dir):
+        run_name = "{}-{}{}-{}".format(
+                            opt.env,
+                            opt.backend,
+                            '-{}'.format(opt.run_memo) if opt.run_memo else '',
+                            datetime_str)
+        return "{}/{}/{}".format(opt.logdir, opt.env, run_name), run_name
+
+    opt.log_dir, opt.run_name = get_log_dir()
+    while os.path.exists(opt.log_dir):
         from time import time
         time.sleep(1)
+        opt.log_dir, opt.run_name = get_log_dir()
+
+    opt.monitor_dir = "{}/monitor".format(opt.log_dir)
     os.makedirs(opt.log_dir)
 
     with open(opt.log_dir + '/config.txt', 'wt') as f:
