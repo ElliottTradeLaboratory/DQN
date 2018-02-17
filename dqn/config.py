@@ -327,8 +327,8 @@ def get_opt():
 
     opt.log_dir, opt.run_name, datetime_str = get_log_dir()
     while os.path.exists(opt.log_dir):
-        from time import time
-        time.sleep(1)
+        from time import sleep
+        sleep(1)
         opt.log_dir, opt.run_name, datetime_str = get_log_dir()
 
     opt.monitor_dir = "{}/monitor".format(opt.log_dir)
