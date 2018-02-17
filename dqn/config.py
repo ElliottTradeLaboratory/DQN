@@ -324,6 +324,9 @@ def get_opt():
                         datetime_str)
     opt.log_dir = "{}/{}/{}".format(opt.logdir, opt.env, opt.run_name)
     opt.monitor_dir = "{}/monitor".format(opt.log_dir)
+    if os.path.exists(opt.log_dir):
+        from time import time
+        time.sleep(1)
     os.makedirs(opt.log_dir)
 
     with open(opt.log_dir + '/config.txt', 'wt') as f:
