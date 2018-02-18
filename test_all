@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
-    echo "./test_run <backend> <env> <param_file_name>"
+    echo "./test_all <backend> <env> <target_dir_path>"
     exit 1
 fi
 
@@ -16,7 +16,7 @@ TARGET_DIR=$1
 shift
 OTHERARGS=$@
 
-LOG_FILENAME="log_${BACKEND}_${ENV}_`date "+%Y%m%d_%H%M%S"`"
+LOG_FILENAME="${TARGET_DIR}/test_log_${BACKEND}_${ENV}_`date "+%Y%m%d_%H%M%S"`"
 
 echo "backend  : ${BACKEND}" > $LOG_FILENAME
 echo "env      : ${ENV}" >> $LOG_FILENAME
