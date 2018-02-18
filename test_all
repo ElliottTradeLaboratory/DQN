@@ -23,13 +23,24 @@ echo "env      : ${ENV}" >> $LOG
 echo "targetdir: ${TARGET_DIR}" >> $LOG
 
 for file in `dir -b ${TARGET_DIR}/*.dat`; do
-    RUN_LOG=${LOG_FILENAME}_${RUN_COUNT}.log
-    echo "${file##*/}: `./test_run $BACKEND $ENV $file --test_episodes 100 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG} &
 
-    let RUN_COUNT++
-    echo "test_run ${RUN_COUNT}.."
+    DAT_NAME=${file##*/}
 
-    if [ $(( RUN_COUNT%${NUM_PROC} )) -eq 0 ]; then
-        wait
+    if [[ $DAT_NAME =~ ([0-9]{1,}) ]]; then
+        step=${BASH_REMATCH[1]}
+    else
+        step=0
+    fi
+
+    if [ $step -ge 20000000 ]; then
+        RUN_LOG=${LOG_FILENAME}_${step}.log
+        echo "${DAT_NAME}: `./test_run $BACKEND $ENV $file --test_episodes 100 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG} &
+
+        let RUN_COUNT++
+        echo "test_run ${step} .."
+
+        if [ $(( RUN_COUNT%${NUM_PROC} )) -eq 0 ]; then
+            wait
+        fi
     fi
 done
