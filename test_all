@@ -32,7 +32,7 @@ for file in `dir -b ${TARGET_DIR}/*.dat`; do
         step=0
     fi
 
-    if [ $step -ge 20000000 ]; then
+    if [ $step -ge 15000000 ]; then
         RUN_LOG=${LOG_FILENAME}_${step}.log
         echo "${DAT_NAME}: `./test_run $BACKEND $ENV $file --test_episodes 100 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG} &
 
