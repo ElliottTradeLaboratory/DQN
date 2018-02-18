@@ -256,8 +256,9 @@ def test_main(game_env, agent, game_actions, opt):
     print('test end', datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'total reward: {:.2f}'.format(episode_rewards.sum()),
             '[{}]average reward: {:.2f}'.format(opt.test_episodes, episode_rewards.mean()),
+            '[{}]stdv: {:.2f}'.format(episode_rewards.std(ddof=1)),
             '[30]average reward: {:.2f}'.format(episode_rewards[:30].mean()),
-            'stdv: {:.2f}'.format(episode_rewards.std(ddof=1)),
+            '[30]stdv: {:.2f}'.format(episode_rewards[:30].std(ddof=1)),
             )
 
 def main():
