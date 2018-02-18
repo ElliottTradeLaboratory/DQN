@@ -74,7 +74,6 @@ class DQNAgent:
         if self.target_q:
             self.trainer.update_target_network()
 
-        self.score = 0
         self.regreedy_score = 0
         self.under_perform_count = 0
         self.moving_average = deque(maxlen=self.regreedy_threshold+1)
@@ -82,24 +81,6 @@ class DQNAgent:
         self._do_greedy = DefaultGreedyMethod(self)
 
         self.max_eval_average_score = 0
-
-    def decide_regreedy(self, eval_average_score):
-        if not self.use_regreedy or self._do_greedy.now_greeding():
-            return
-
-        ema_last = self.moving_average[-1] if len(self.moving_average) > 0 else 0
-        ema = ema_last * self.regreedy_ema_momemtum + (1-self.regreedy_ema_momemtum) * eval_average_score
-        self.moving_average.append(ema)
-
-        if self.moving_average[-1] > self.max_eval_average_score:
-            self.max_eval_average_score = self.moving_average[-1]
-
-        print(np.where(np.array(self.moving_average)<self.max_eval_average_score)[0])
-        if len(np.where(np.array(self.moving_average)<self.max_eval_average_score)[0]) > self.regreedy_threshold:
-            print("start regreedy!!!!")
-            self.under_perform_count = 0
-            self._do_greedy = ReGreedyMethod(self)
-            self.regreedy_score = self.max_eval_average_score * self.regreedy_rate
 
     def _preprocess(self, rawstate):
         self._screen.paint(rawstate)
@@ -156,9 +137,6 @@ class DQNAgent:
 
         curState = None
 
-        if not terminal:
-            self.score += rawreward
-
         reward = rawreward
         if not self.normalized_dqn:
 
@@ -173,7 +151,7 @@ class DQNAgent:
         currentFullState = self.transitions.get_recent()
 
         if self.lastState is not None and not testing:
-            self.transitions.add(self.lastState, self.lastAction, reward, self.lastTerminal, self.score)
+            self.transitions.add(self.lastState, self.lastAction, reward, self.lastTerminal)
 
         if self.numSteps == self.learn_start + 1 and not testing:
             self._sample_validation_data()
@@ -182,7 +160,6 @@ class DQNAgent:
         curState = curState.reshape((1,)+self.input_dims) 
 
         if terminal:
-            self.score = 0
             action = -1 
         else:
             action = self._eGreedy(curState, testing_ep)
@@ -276,36 +253,3 @@ class DefaultGreedyMethod(BaseGreedyMethod):
                         max(0, self.agent.numSteps - self.agent.learn_start))/self.agent.ep_endt))
         return self.agent.random.uniform() >= self.agent.ep
 
-class ReGreedyMethod(BaseGreedyMethod):
-    def __init__(self, agent):
-        super(ReGreedyMethod, self).__init__(agent)
-        self.epsilon_space = np.linspace(self.agent.ep_restart, self.agent.ep_end, self.agent.ep_endt_restarted)
-        self.epsilon_index = 0
-
-    def call(self, testing_ep):
-        if testing_ep is not None:
-            return self.agent.random.uniform() >= testing_ep
-
-        if self.agent.score > self.agent.regreedy_score:
-            # When current score is over regreedy_score,
-            # get regreedy epsilon from epsilon_space and use it.
-            self.agent.ep = self.epsilon_space[self.epsilon_index]
-
-            if self.epsilon_index+1 < self.agent.ep_endt_restarted:
-                self.epsilon_index += 1
-            else:
-                # When epsilon_space is empty,
-                # replace the call() method to greedy_ended() method.
-                self.call = self.greedy_ended
-        else:
-            # When current score is under or equal regreedy_score,
-            # use ep_end.
-            self.agent.ep = self.agent.ep_end
-
-        return self.agent.random.uniform() >= self.agent.ep
-
-    def greedy_ended(self, testing_ep):
-        if testing_ep is not None:
-            return self.agent.random.uniform() >= testing_ep
-        else:
-            return self.agent.random.uniform() >= self.agent.ep

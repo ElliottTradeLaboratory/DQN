@@ -138,8 +138,6 @@ def train_main(game_env, agent, game_actions, opt):
             nepisodes = game_env.get_num_episode()
             avg_epi_reward = np.mean(game_env.get_episode_scores())
  
-            agent.decide_regreedy(avg_epi_reward)
- 
             eval_time = time.time() - eval_time
             start_time += eval_time
             agent.compute_validation_statistics()
@@ -257,7 +255,8 @@ def test_main(game_env, agent, game_actions, opt):
     episode_rewards = np.array(episode_rewards)
     print('test end', datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             'total reward: {:.2f}'.format(episode_rewards.sum()),
-            'average reward: {:.2f}'.format(episode_rewards.mean()),
+            '[{}]average reward: {:.2f}'.format(opt.test_episodes, episode_rewards.mean()),
+            '[30]average reward: {:.2f}'.format(episode_rewards[:30].mean()),
             'stdv: {:.2f}'.format(episode_rewards.std(ddof=1)),
             )
 

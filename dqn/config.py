@@ -150,7 +150,7 @@ def _parse_arguments():
                         help="show recording q_value in test mode.")
     parser.add_argument('--test_episodes',
                         type=int,
-                        default=30)
+                        default=100)
     parser.add_argument('--render',
                         action='store_true',
                         default=False,
