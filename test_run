@@ -12,4 +12,3 @@ FILE_NAME=$1
 shift
 ./run ${BACKEND} ${ENV} --file_name ${FILE_NAME} --test --logdir /tmp $@
 #./run ${BACKEND} ${ENV} --file_name ${FILE_NAME} --test --test_recording --test_recording_q_value --video_freq 1 --logdir /tmp $@
-
