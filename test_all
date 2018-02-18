@@ -24,7 +24,7 @@ echo "targetdir: ${TARGET_DIR}" >> $LOG
 
 for file in `dir -b ${TARGET_DIR}/*.dat`; do
     RUN_LOG=${LOG_FILENAME}_${RUN_COUNT}.log
-    echo "${file##*/}: `./test_run $BACKEND $ENV $file --test_episodes 2 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG} &
+    echo "${file##*/}: `./test_run $BACKEND $ENV $file --test_episodes 100 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG} &
 
     let RUN_COUNT++
     echo "test_run ${RUN_COUNT}.."
