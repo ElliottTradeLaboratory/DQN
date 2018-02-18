@@ -25,9 +25,11 @@ echo "targetdir: ${TARGET_DIR}" >> $LOG_FILENAME
 for file in `dir -b ${TARGET_DIR}/*.dat`; do
     RUN_LOG=${LOG_FILENAME}_${RUN_COUNT}.log
     echo "${file##*/}: `./test_run $BACKEND $ENV $file --test_episodes 100 $@ |tee ${RUN_LOG} |grep 'test end'`" >> ${LOG_FILENAME}.log &
-    sleep 5
 
     let RUN_COUNT++
+    echo "test_run ${RUN_COUNT}.."
+
+    sleep 5
     if [ $(( RUN_COUNT%${NUM_PROC} )) -eq 0 ]; then
         wait
     fi
