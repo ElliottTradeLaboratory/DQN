@@ -12,7 +12,8 @@ from mxnet.symbol import sign, sqrt, Activation, Custom
 from initializer import Torch_nn_DefaultInitializer as torch_nn_init
 
 def setup_before_package_loading(opt):
-    pass
+    import os
+    os.environ['MXNET_ENGINE_TYPE'] = 'ThreadedEngine'
 
 def setup(opt):
     random.seed(opt.seed)
