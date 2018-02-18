@@ -44,3 +44,4 @@ for file in `dir -b ${TARGET_DIR}/*.dat`; do
         fi
     fi
 done
+wait
