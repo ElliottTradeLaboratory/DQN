@@ -24,6 +24,9 @@ class Convnet(object):
     def get_trainable_parameters(self, numpy=True):
         return self._get_selected_parameters(self.trainable_layer_names, numpy)
 
+    def set_trainable_parameters(self, weights, numpy=True):
+        raise NotImplementedError()
+
     def _get_selected_parameters(self, selecter, numpy):
         params_dict = self._get_params_dict(numpy)
         return [params for layer_name, params in params_dict.items() if layer_name in selecter]
