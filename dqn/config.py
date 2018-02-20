@@ -191,7 +191,7 @@ def _parse_arguments():
                         default=False)
     parser.add_argument('--training_summary',
                         type=str,
-                        choices=['non', 'as_prot_freq', 'all'],
+                        choices=['non', 'as_prog_freq', 'all'],
                         default='non')
     parser.add_argument('--steps',
                         type=int,
