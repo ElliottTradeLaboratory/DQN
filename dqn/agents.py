@@ -99,8 +99,8 @@ class DQNAgent:
 
         if self.training_summary == 'non':
             do_summary = False
-        elif self.training_summary == 'as_prog_freq' and self.numSteps % self.prog_freq == 0:
-            do_summary = True
+        elif self.training_summary == 'as_prog_freq':
+            do_summary = self.numSteps % self.prog_freq == 0
         elif self.training_summary == 'all':
             do_summary = True
         else:
