@@ -155,23 +155,28 @@ class AbstractTestTrainer(object):
                 def get_param(v):
                     return v
 
+            get_random('pytorch', 1)
             for mod in _modules:
                 before_w = get_param(mod.weight).clone()
-                before_b = get_param(mod.weight).clone()
+                before_b = get_param(mod.bias).clone()
 
                 print(Ex.weight_init)
 
                 Ex.weight_init(mod)
 
                 after_w = get_param(mod.weight).clone()
-                after_b = get_param(mod.weight).clone()
+                after_b = get_param(mod.bias).clone()
 
+                print(after_b.shape)
                 if initializer == 'torch_nn_default':
                     assert before_w.equal(after_w)
-                    assert before_b.equal(after_b)
+                    assert_equal(before_b.numpy(), after_b.numpy(), use_float_equal=True, verbose=10)
                 else:
                     assert not before_w.equal(after_w)
                     assert not before_b.equal(after_b)
+                    assert_equal(Ex.weight_init.init_w, after_w.numpy(), use_float_equal=True, verbose=10)
+                    print(Ex.weight_init.init_b.shape, after_b.numpy().shape)
+                    assert_equal(Ex.weight_init.init_b, after_b.numpy(), use_float_equal=True, verbose=10)
 
 
     def _test_01_get_summarizable_parameters(self):

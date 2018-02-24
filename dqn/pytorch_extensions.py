@@ -68,24 +68,24 @@ def _create_weight_init(opt):
         from initializer import get_initializer
         initializer = get_initializer(opt.initializer)
 
-        def _init(data, weight):
-            if callable(initializer):
-                np_data = data.numpy()
-                np_init = initializer.kernel_initializer(np_data.shape, np_data.dtype) if weight else \
-                          initializer.bias_initializer(np_data.shape, np_data.dtype)
-                data.copy_(torch.from_numpy(np_init).float())
-            else:
-                raise NotImplementedError()
+        class WeightInitializer(object):
+            def __call__(self, m):
+                w = None
+                b = None
+                if isinstance(m, (nn.Conv2d, nn.Linear)):
+                    w = m.weight.data
+                    b = m.bias.data
+                elif isinstance(m, (legacy_nn.SpatialConvolution, legacy_nn.Linear)):
+                    w = m.weight
+                    b = m.bias
 
-        def _weight_init_other_initializer(m):
-            if isinstance(m, (nn.Conv2d, nn.Linear)):
-                _init(m.weight.data, weight=True)
-                _init(m.bias.data,  weight=False)
-            elif isinstance(m, (legacy_nn.SpatialConvolution, legacy_nn.Linear)):
-                _init(m.weight,  weight=True)
-                _init(m.bias,  weight=False)
+                if w is not None:
+                    self.init_w = initializer.kernel_initializer(w.numpy().shape)
+                    w.copy_(torch.from_numpy(self.init_w).float())
+                    self.init_b = initializer.bias_initializer(b.numpy().shape)
+                    b.copy_(torch.from_numpy(self.init_b).float())
 
-        weight_init = _weight_init_other_initializer
+        weight_init = WeightInitializer()
 
 
 Rectifier = None
@@ -117,7 +117,7 @@ def _create_rectifier(opt):
                 output = ctx.saved_variables
                 return output[0].sign() * grad_output
 
-        class RectifierNew(nn.ReLU):
+        class RectifierNew(nn.Module):
             def __init__(self, name=None):
                 super(RectifierNew, self).__init__()
                 self.output = None
@@ -125,7 +125,7 @@ def _create_rectifier(opt):
 
             def forward(self, input):
                 if opt.relu:
-                    self.output = super(RectifierNew, self).forward(input)
+                    self.output = nn.functional.relu(input)
                 else:
                     self.output = RectifierFunction.apply(input)
                 return self.output
@@ -136,15 +136,11 @@ def _create_rectifier(opt):
 
             def __repr__(self):
                 if opt.relu:
-                    class_name = 'nn.ReLU'
+                    class_name = 'nn.functional.relu'
                 else:
-                    class_name = self.__class__.__name__
+                    class_name = 'DQN3.0 Rectifer'
 
-                inplace_str = ', inplace' if self.inplace else ''
-                return class_name + '(' \
-                    + str(0) \
-                    + ', ' + str(0) \
-                    + inplace_str + ')'
+                return class_name
             
         Rectifier = RectifierNew
     else:
