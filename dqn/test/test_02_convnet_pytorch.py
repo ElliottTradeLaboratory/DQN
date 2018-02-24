@@ -106,6 +106,74 @@ class AbstractTestTrainer(object):
         self.assertEqual(self.network.summarizable_layer_names, 
                          [lname for lname in BASE_LAYER_NAMES if not lname in BASE_EXCLUDE_LAYER_NAMES_FOR_SUMMARY])
 
+    def test_00_init2(self):
+        self._test_00_init2('pytorch')
+        self._test_00_init2('pytorch_legacy')
+
+    def _test_00_init2(self, backend):
+        from common import create_networks, get_extensions
+        from convnet_common import Convnet, Trainer
+        from config import get_opt
+        from initializer import get_initializer
+
+        sys.argv += ['--backend', backend,
+                     '--env', 'breakout',
+                     '--gpu', '-1',
+                     '--logdir', '/tmp']
+        args = get_opt()
+        args.actions = [0,1,3,4]
+        args.n_actions = 4
+
+        Ex = get_extensions(args)
+
+
+        from keras import backend as K
+        import tensorflow as tf
+
+        sess = K.get_session()
+
+        for initializer in ['torch_nn_default', 'uniform', 'deep_q_rl']:
+            args.initializer = initializer
+            Ex.setup(args)
+            get_random('pytorch', 1)
+            if backend == 'pytorch':
+                from torch.nn import Conv2d, Linear
+                _modules = [Conv2d(4, 32, kernel_size=8, stride=4, padding=1),
+                            Conv2d(32, 64, kernel_size=4, stride=2),
+                            Conv2d(64, 64, kernel_size=3, stride=1),
+                            Linear(3136, 512),
+                            Linear(512, args.n_actions)]
+                def get_param(v):
+                    return v.data
+            else:
+                from torch.legacy.nn import SpatialConvolution, Linear
+                _modules = [SpatialConvolution(4, 32, 8, 8, 4, 4, 1),
+                            SpatialConvolution(32, 64, 4, 4, 2, 2),
+                            SpatialConvolution(64, 64, 3, 3, 1, 1),
+                            Linear(3136, 512),
+                            Linear(512, args.n_actions)]
+                def get_param(v):
+                    return v
+
+            for mod in _modules:
+                before_w = get_param(mod.weight).clone()
+                before_b = get_param(mod.weight).clone()
+
+                print(Ex.weight_init)
+
+                Ex.weight_init(mod)
+
+                after_w = get_param(mod.weight).clone()
+                after_b = get_param(mod.weight).clone()
+
+                if initializer == 'torch_nn_default':
+                    assert before_w.equal(after_w)
+                    assert before_b.equal(after_b)
+                else:
+                    assert not before_w.equal(after_w)
+                    assert not before_b.equal(after_b)
+
+
     def _test_01_get_summarizable_parameters(self):
         raise NotImplementedError()
 

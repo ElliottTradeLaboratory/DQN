@@ -9,6 +9,7 @@ def setup_before_package_loading(opt):
 def setup(opt):
     torch.manual_seed(opt.seed)
     _create_rectifier(opt)
+    _create_weight_init(opt)
     return opt
 
 class LegacyInterface(object):
@@ -50,6 +51,41 @@ class ExLinear(nn.Linear, LegacyInterface):
     @property
     def name(self):
         return self._name
+
+weight_init = None
+def _create_weight_init(opt):
+    global weight_init
+
+    print(opt.initializer)
+
+    if opt.initializer == 'torch_nn_default':
+        def _weight_init_torch_nn_default(m):
+            pass
+        weight_init = _weight_init_torch_nn_default
+
+    else:
+
+        from initializer import get_initializer
+        initializer = get_initializer(opt.initializer)
+
+        def _init(data, weight):
+            if callable(initializer):
+                np_data = data.numpy()
+                np_init = initializer.kernel_initializer(np_data.shape, np_data.dtype) if weight else \
+                          initializer.bias_initializer(np_data.shape, np_data.dtype)
+                data.copy_(torch.from_numpy(np_init).float())
+            else:
+                raise NotImplementedError()
+
+        def _weight_init_other_initializer(m):
+            if isinstance(m, (nn.Conv2d, nn.Linear)):
+                _init(m.weight.data, weight=True)
+                _init(m.bias.data,  weight=False)
+            elif isinstance(m, (legacy_nn.SpatialConvolution, legacy_nn.Linear)):
+                _init(m.weight,  weight=True)
+                _init(m.bias,  weight=False)
+
+        weight_init = _weight_init_other_initializer
 
 
 Rectifier = None

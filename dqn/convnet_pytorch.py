@@ -58,7 +58,7 @@ class PyTorchConvnet(Convnet, Utils):
     def _create_model(self):
         from collections import deque
         from torch.nn import Sequential, Module
-        from pytorch_extensions import ExLinear, ExConv2d, Rectifier
+        from pytorch_extensions import ExLinear, ExConv2d, Rectifier, weight_init
 
         names = deque(self.summarizable_layer_names)
 
@@ -122,6 +122,8 @@ class PyTorchConvnet(Convnet, Utils):
 
         model = Model(self.args, features, classifier)
 
+        model.apply(weight_init)
+
         if self.args.gpu >= 0:
             model = model.cuda(self.args.gpu)
 
@@ -143,7 +145,7 @@ class PyTorchConvnet(Convnet, Utils):
     def _create_model_legacy(self):
         from torch.legacy.nn import Sequential, Linear, SpatialConvolution, Reshape
         from torch.legacy.nn import Module
-        from pytorch_extensions import Rectifier
+        from pytorch_extensions import Rectifier, weight_init
 
         layers = [SpatialConvolution(4, 32, 8, 8, 4, 4, 1),
                   Rectifier(),
@@ -160,6 +162,7 @@ class PyTorchConvnet(Convnet, Utils):
 
         for mod, layer_name in zip(layers, self.layer_names):
             mod.name = layer_name
+            weight_init(mod)
             model.add(mod)
 
         if self.args.gpu >= 0:

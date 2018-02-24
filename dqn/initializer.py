@@ -96,8 +96,10 @@ class Uniform_Initializer(Initializer):
         fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1 / np.sqrt(fan_in)
 
-        from keras import backend as K
-        return K.random_uniform_variable(shape, -stdv, stdv)
+        #from keras import backend as K
+        #return K.random_uniform_variable(shape, -stdv, stdv)
+        random = get_random()
+        return np.float32(random.uniform(-stdv, stdv, shape=shape))
 
     @staticmethod
     def bias_initializer(shape, dtype=None):
@@ -105,8 +107,10 @@ class Uniform_Initializer(Initializer):
         fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1 / np.sqrt(fan_in)
 
-        from keras import backend as K
-        return K.random_uniform_variable(shape, -stdv, stdv)
+        #from keras import backend as K
+        #return K.random_uniform_variable(shape, -stdv, stdv)
+        random = get_random()
+        return np.float32(random.uniform(-stdv, stdv, shape=shape))
     
     @staticmethod
     def print():
@@ -115,13 +119,15 @@ class Uniform_Initializer(Initializer):
 class Deep_q_rl_Initializer(Initializer):
     @staticmethod
     def kernel_initializer(shape, dtype=None):
-        fan_in, _ = _compute_fans(shape)
+        cls = Deep_q_rl_Initializer
+        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         
         stdv = np.sqrt(1 / fan_in)
-        from keras import backend as K
-        return K.random_uniform_variable(shape, 
-                                         -stdv, 
-                                         stdv)
+        #from keras import backend as K
+        #return K.random_uniform_variable(shape, -stdv, stdv)
+        random = get_random()
+        return np.float32(random.uniform(-stdv, stdv, shape=shape))
+
 
     @staticmethod
     def bias_initializer(shape, dtype=None):

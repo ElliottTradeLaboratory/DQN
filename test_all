@@ -5,14 +5,14 @@ if [ -z "$1" -o -z "$2" -o -z "$3" ]; then
     exit 1
 fi
 
-NUM_PROC=10
+NUM_PROC=1
 RUN_COUNT=0
 
 BACKEND=$1
 shift
 ENV=$1
 shift
-TARGET_DIR=$1
+TARGET_DIR=$10
 shift
 OTHERARGS=$@
 
