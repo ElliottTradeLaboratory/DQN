@@ -12,7 +12,7 @@ BACKEND=$1
 shift
 ENV=$1
 shift
-TARGET_DIR=$10
+TARGET_DIR=$1
 shift
 OTHERARGS=$@
 
