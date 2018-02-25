@@ -310,7 +310,8 @@ class AbstractTestTrainer(object):
 
     def test_03_qLearnMinibatch(self):
     
-        for backend, loss_function, optimizer in [('pytorch_legacy', 'DQN3.0', 'DQN3.0')
+        for backend, loss_function, optimizer in [('pytorch_legacy', 'DQN3.0', 'DQN3.0'),
+                                                  ('pytorch', 'DQN3.0', 'DQN3.0')
 #                                  ,('pytorch_legacy', 'LegacyRMSprop_w_DQN3loss')
 #                                  ,('pytorch_legacy', 'LegacyRMSprop_w_MSEloss')
 #                                  ,('pytorch', 'RMSprop_w_DQN3loss')
@@ -328,7 +329,7 @@ class AbstractTestTrainer(object):
 
     def _test_03_qLearnMinibatch(self, backend, loss_function, optimizer):
 
-        from common import create_networks
+        from common import create_networks, get_extensions
         from convnet_pytorch import Utils
         from config import get_opt
 
@@ -344,6 +345,8 @@ class AbstractTestTrainer(object):
         args = get_opt()
         args.actions = [0,1,3,4]
         args.n_actions = 4
+        Ex = get_extensions(args)
+        Ex.setup(args)
         utils = Utils(args)
         get_random('torch', 1)
         self.network, self.trainer = create_networks(args)

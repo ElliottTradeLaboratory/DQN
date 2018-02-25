@@ -65,9 +65,10 @@ def _create_weight_init(opt):
 
     else:
 
-        from initializer import get_initializer
+        from initializer import compute_fans
         initializer = get_initializer(opt.initializer)
 
+        """
         class WeightInitializer(object):
             def __call__(self, m):
                 w = None
@@ -84,6 +85,27 @@ def _create_weight_init(opt):
                     w.copy_(torch.from_numpy(self.init_w).float())
                     self.init_b = initializer.bias_initializer(b.numpy().shape)
                     b.copy_(torch.from_numpy(self.init_b).float())
+        """
+
+        class WeightInitializer(object):
+            def __call__(self, m):
+                w = None
+                b = None
+                if isinstance(m, (nn.Conv2d, nn.Linear)):
+                    w = m.weight.data
+                    b = m.bias.data
+                elif isinstance(m, (legacy_nn.SpatialConvolution, legacy_nn.Linear)):
+                    w = m.weight
+                    b = m.bias
+
+                if w is not None:
+                    self._uniform(w)
+                    self._uniform(b)
+
+            def _uniform(self, data):
+                fan_in, _ = compute_fans(data.numpy().shape, 'channels_first')
+                stdv = 1 / np.sqrt(fan_in)
+                self.uniform_(-stdv, stdv)
 
         weight_init = WeightInitializer()
 

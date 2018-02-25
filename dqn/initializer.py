@@ -3,8 +3,8 @@ import numpy as np
 
 from utils import get_random
 
-def _compute_fans(shape, data_format):
-    # this function is refer to keras.initializers._compute_fans
+def compute_fans(shape, data_format):
+    # this function is refer to keras.initializers.compute_fans
 
     if len(shape) == 2:
         # In this case of the parameter of Linear layer,
@@ -59,7 +59,7 @@ class Torch_nn_DefaultInitializer(Initializer):
     @staticmethod
     def kernel_initializer(shape, dtype=None):
         cls = Torch_nn_DefaultInitializer
-        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
+        fan_in, _ = compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1.0 / np.sqrt(fan_in)
         cls.stdv = stdv
 
@@ -93,7 +93,7 @@ class Uniform_Initializer(Initializer):
     @staticmethod
     def kernel_initializer(shape, dtype=None):
         cls = Uniform_Initializer
-        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
+        fan_in, _ = compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1 / np.sqrt(fan_in)
 
         #from keras import backend as K
@@ -104,7 +104,7 @@ class Uniform_Initializer(Initializer):
     @staticmethod
     def bias_initializer(shape, dtype=None):
         cls = Uniform_Initializer
-        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
+        fan_in, _ = compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         stdv = 1 / np.sqrt(fan_in)
 
         #from keras import backend as K
@@ -120,7 +120,7 @@ class Deep_q_rl_Initializer(Initializer):
     @staticmethod
     def kernel_initializer(shape, dtype=None):
         cls = Deep_q_rl_Initializer
-        fan_in, _ = _compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
+        fan_in, _ = compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
         
         stdv = np.sqrt(1 / fan_in)
         #from keras import backend as K
