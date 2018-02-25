@@ -88,7 +88,7 @@ def _create_weight_init(opt):
                     b.copy_(torch.from_numpy(self.init_b).float())
         """
 
-        class WeightInitializer(object):
+        class UniformInitializer(object):
             def __call__(self, m):
                 w = None
                 b = None
@@ -106,10 +106,13 @@ def _create_weight_init(opt):
             def _uniform(self, data):
                 fan_in, _ = compute_fans(data.numpy().shape, 'channels_first')
                 stdv = 1 / np.sqrt(fan_in)
-                self.uniform_(-stdv, stdv)
+                data.uniform_(-stdv, stdv)
 
-        weight_init = WeightInitializer()
-
+        initializer = {'uniform': UniformInitializer}
+        try:
+            weight_init = initializer[opt.initializer]()
+        except KeyError:
+            raise NotImplementedError("initializer '{}' is not implemented for pytorch".format(opt.initializer))
 
 Rectifier = None
 def _create_rectifier(opt):
