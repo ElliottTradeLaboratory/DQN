@@ -66,9 +66,9 @@ def _create_weight_init(opt):
     else:
 
         from initializer import compute_fans
+        """
         initializer = get_initializer(opt.initializer)
 
-        """
         class WeightInitializer(object):
             def __call__(self, m):
                 w = None
