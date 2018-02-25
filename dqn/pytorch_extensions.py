@@ -66,6 +66,7 @@ def _create_weight_init(opt):
     else:
 
         from initializer import compute_fans
+        import numpy as np
         """
         initializer = get_initializer(opt.initializer)
 
