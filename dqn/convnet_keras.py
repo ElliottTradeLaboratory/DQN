@@ -33,7 +33,7 @@ class KerasConvnet(Convnet):
         for p in params:
             new_p = K.placeholder(shape=K.int_shape(p), dtype=K.dtype(p))
             update_op = K.update(p, new_p)
-            set_param_inputs.append(new_p)
+            self.set_param_inputs.append(new_p)
             set_param_ops.append(update_op)
         self.func_set_params = K.function(self.set_param_inputs, [], set_param_ops)
 
