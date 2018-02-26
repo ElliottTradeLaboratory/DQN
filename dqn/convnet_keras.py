@@ -17,6 +17,7 @@ class KerasConvnet(Convnet):
                          layer_names=['premute']+BASE_LAYER_NAMES,
                          exclude_layer_name_for_summary=['premute']+BASE_EXCLUDE_LAYER_NAMES_FOR_SUMMARY)
 
+        self.Ex = get_extensions(self.args)
         self.model = self._create_model()
         
         self.outputs = []
@@ -31,7 +32,6 @@ class KerasConvnet(Convnet):
         from initializer import get_initializer
         from utils import get_random
 
-        Ex = get_extensions(self.args)
 
         with K.name_scope(self.network_name):
             
@@ -49,25 +49,25 @@ class KerasConvnet(Convnet):
                             bias_initializer=initializer.bias_initializer,
                             padding=padding,
                             name=layer_names.popleft())(premuted_s)
-            relu1 = Ex.Rectifier(name=layer_names.popleft())(Conv1)
+            relu1 = self.Ex.Rectifier(name=layer_names.popleft())(Conv1)
             Conv2 = Conv2D(64, (4,4), strides=(2, 2),
                             kernel_initializer=initializer.kernel_initializer,
                             bias_initializer=initializer.bias_initializer,
                             padding=padding,
                             name=layer_names.popleft())(relu1)
-            relu2 = Ex.Rectifier(name=layer_names.popleft())(Conv2)
+            relu2 = self.Ex.Rectifier(name=layer_names.popleft())(Conv2)
             Conv3 = Conv2D(64, (3,3), strides=(1, 1),
                             kernel_initializer=initializer.kernel_initializer,
                             bias_initializer=initializer.bias_initializer,
                             padding=padding,
                             name=layer_names.popleft())(relu2)
-            relu3 = Ex.Rectifier(name=layer_names.popleft())(Conv3)
+            relu3 = self.Ex.Rectifier(name=layer_names.popleft())(Conv3)
             flatten=Flatten(name=layer_names.popleft())(relu3)
             Linear = Dense(512,
                             kernel_initializer=initializer.kernel_initializer,
                             bias_initializer=initializer.bias_initializer,
                             name=layer_names.popleft())(flatten)
-            relu4 = Ex.Rectifier(name=layer_names.popleft())(Linear)
+            relu4 = self.Ex.Rectifier(name=layer_names.popleft())(Linear)
             output      = Dense(self.args.n_actions,
                             kernel_initializer=initializer.kernel_initializer,
                             bias_initializer=initializer.bias_initializer,
@@ -105,7 +105,8 @@ class KerasConvnet(Convnet):
 
     def set_trainable_parameters(self, weights, numpy=True):
         if numpy:
-            self.model.set_weights(weights)
+            if self.Ex.get_device(self.args.gpu):
+                self.model.set_weights(weights)
         else:
             raise NotImplementedError()
 
