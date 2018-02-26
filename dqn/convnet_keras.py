@@ -105,7 +105,7 @@ class KerasConvnet(Convnet):
 
     def set_trainable_parameters(self, weights, numpy=True):
         if numpy:
-            if self.Ex.get_device(self.args.gpu):
+            with self.Ex.get_device(self.args.gpu):
                 self.model.set_weights(weights)
         else:
             raise NotImplementedError()
