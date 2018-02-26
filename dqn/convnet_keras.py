@@ -26,7 +26,7 @@ class KerasConvnet(Convnet):
 
         from keras import backend as K
 
-        params = model.trainable_weights()
+        params = self.model.trainable_weights
 
         self.set_param_inputs = []
         set_param_ops = []
