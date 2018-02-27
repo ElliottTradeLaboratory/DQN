@@ -111,17 +111,11 @@ class KerasConvnet(Convnet):
     def set_summarizable_parameters(self, params):
         self.params = params
 
-    def get_trainable_parameters(self, numpy=True):
-        if numpy:
-            return self.model.get_weights()
-        else:
-            return self.trainable_weights()
+    def get_params(self):
+        return self.model.get_weights()
 
-    def set_trainable_parameters(self, weights, numpy=True):
-        if numpy:
-            self.func_set_params(weights)
-        else:
-            raise NotImplementedError()
+    def set_params(self, weights):
+        self.func_set_params(weights)
 
     @property
     def input(self):

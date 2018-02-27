@@ -137,6 +137,12 @@ class MXnetConvnet(Convnet):
 
         return params_dict
 
+    def get_params(self):
+        return self.module.get_params()
+
+    def set_params(self, weights):
+        self.module.set_params(*weights)
+
     def _save(self, filepath):
         self.module.save_params(filepath)
 
