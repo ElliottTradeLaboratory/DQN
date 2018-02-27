@@ -251,7 +251,7 @@ class PyTorchTrainer(Trainer, Utils):
         if args.backend =='pytorch':
             def updater(network, target_network):
                 params = network.get_params()
-                target_network.model.set_params(params)
+                target_network.set_params(params)
             self.updater = updater
         else:
             def updater(network, target_network):
