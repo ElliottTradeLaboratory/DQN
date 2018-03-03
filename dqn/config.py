@@ -128,6 +128,10 @@ def _parse_arguments():
 
 
 
+    parser.add_argument('--ep_start',
+                        type=float,
+                        default=1.0,
+                        help="e-greedy start value")
     parser.add_argument('--test',
                         action='store_true',
                         default=False,
@@ -254,12 +258,6 @@ def _dqn30_setting(opt):
     opt.ep_end = 0.1
     opt.ep_start   = 1
     opt.ep_endt = opt.replay_memory
-
-    opt.ep_restart = (opt.ep_start-opt.ep_end) / 2.0
-    opt.ep_endt_restarted = int(opt.replay_memory / 2.0)
-    opt.regreedy_threshold = 10
-    opt.regreedy_rate = 0.9
-    opt.regreedy_ema_momemtum = 0.9
 
     # RMSprop params
     opt.grad_momentum = 0.95
