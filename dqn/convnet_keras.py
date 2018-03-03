@@ -24,18 +24,19 @@ class KerasConvnet(Convnet):
             if layer.name in self.summarizable_layer_names:
                 self.outputs.append(layer.output)
 
-        from keras import backend as K
+        if args.backend == 'tensorflow':
+            from keras import backend as K
 
-        params = self.model.trainable_weights
+            params = self.model.trainable_weights
 
-        self.set_param_inputs = []
-        set_param_ops = []
-        for p in params:
-            new_p = K.placeholder(shape=K.int_shape(p), dtype=K.dtype(p))
-            update_op = K.update(p, new_p)
-            self.set_param_inputs.append(new_p)
-            set_param_ops.append(update_op)
-        self.func_set_params = K.function(self.set_param_inputs, [], set_param_ops)
+            self.set_param_inputs = []
+            set_param_ops = []
+            for p in params:
+                new_p = K.placeholder(shape=K.int_shape(p), dtype=K.dtype(p))
+                update_op = K.update(p, new_p)
+                self.set_param_inputs.append(new_p)
+                set_param_ops.append(update_op)
+            self.func_set_params = K.function(self.set_param_inputs, [], set_param_ops)
 
 
     def _create_model(self):
