@@ -74,13 +74,7 @@ class DQNAgent:
         if self.target_q:
             self.trainer.update_target_network()
 
-        self.regreedy_score = 0
-        self.under_perform_count = 0
-        self.moving_average = deque(maxlen=self.regreedy_threshold+1)
-        self.do_regreedy = False
         self._do_greedy = DefaultGreedyMethod(self)
-
-        self.max_eval_average_score = 0
 
     def _preprocess(self, rawstate):
         self._screen.paint(rawstate)
