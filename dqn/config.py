@@ -256,7 +256,7 @@ def _dqn30_setting(opt):
     
     # ε-greedy params
     opt.ep_end = 0.1
-    opt.ep_start   = 1
+    #opt.ep_start   = 1
     opt.ep_endt = opt.replay_memory
 
     # RMSprop params
