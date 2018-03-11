@@ -15,11 +15,13 @@ cd /
 cd /DQN/alewrap_py
 python3 setup.py build
 python3 setup.py install
-PACKAGES_DIR=`python3 get_site_packages_path.py`
-ALEWRAP_PY_DIR=`python3 get_site_packages_path.py --get_alewrap_dir`
+
+PACKAGES_DIR=`python3 /DQN/install/get_site_packages_path.py`
+ALEWRAP_PY_DIR=`python3 /DQN/install/get_site_packages_path.py --get_alewrap_dir`
 cd ${ALEWRAP_PY_DIR}/alewrap_py/atari_roms
 ls ${PACKAGES_DIR}/atari_py/atari_roms/*.bin | xargs -I{} ln -s {}
 
+cd /DQN/install
 frameworks="pytorch cntk tensorflow mxnet"
 for backend in $baskends; do
     if [ "$backend" = "$1" -o "$1" = "all" ]; then
