@@ -23,10 +23,11 @@ ls ${PACKAGES_DIR}/atari_py/atari_roms/*.bin | xargs -I{} ln -s {}
 
 cd /DQN/install
 frameworks="pytorch cntk tensorflow mxnet"
-for backend in $baskends; do
-    if [ "$backend" = "$1" -o "$1" = "all" ]; then
-        echo *** Installing ${frameworks} ***
-        ./${backend}_install.sh
+for framework in $frameworks; do
+    echo ">>>>>>> ${framework} <<<<<<<<"
+    if [ "$framework" = "$1" -o "$1" = "all" ]; then
+        echo *** Installing ${framework} ***
+        ./${framework}_install.sh
     fi
 done
 pip3 install Pillow matplotlib
