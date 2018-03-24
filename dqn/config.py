@@ -34,11 +34,6 @@ def _parse_arguments():
                         choices=[1, 0],
                         default=1,
                         help="Specifies action selection behavior from q_value.")
-    parser.add_argument('--use_regreedy',
-                        type=int,
-                        choices=[1, 0],
-                        default=0,
-                        help="Specifies action selection behavior from q_value.")
 
     # model architecture options.
     parser.add_argument('--backend',
@@ -128,10 +123,6 @@ def _parse_arguments():
 
 
 
-    parser.add_argument('--ep_start',
-                        type=float,
-                        default=1.0,
-                        help="e-greedy start value")
     parser.add_argument('--test',
                         action='store_true',
                         default=False,
@@ -256,7 +247,7 @@ def _dqn30_setting(opt):
     
     # ε-greedy params
     opt.ep_end = 0.1
-    #opt.ep_start   = 1
+    opt.ep_start   = 1
     opt.ep_endt = opt.replay_memory
 
     # RMSprop params

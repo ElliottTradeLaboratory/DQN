@@ -230,10 +230,11 @@ class PyTorchConvnet(Convnet, Utils):
         return params_dict
 
     def get_params(self):
-        return self.model.state_dict()
-    
+        return (self.model.features.state_dict(),
+                  self.model.classifier.state_dict())
     def set_params(self, weights):
-        self.model.load_state_dict(weights)
+        self.model.features.load_state_dict(weights[0])
+        self.model.classifier.load_state_dict(weights[1])    
 
     def _save(self, filepath):
         self.saver(filepath, self.model)
