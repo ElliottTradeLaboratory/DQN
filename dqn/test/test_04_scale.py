@@ -64,7 +64,7 @@ class TestScale(unittest.TestCase):
         import cv2
         
         get_random('pytorch', 1)
-        env = get_env(dict(env='space_invaders',actrep=4, screen_normalize='env', maximization='env'))
+        env = get_env(dict(env='space_invaders',actrep=4, screen_normalize='trans', maximization='env'))
         s, r, t, info =env.getState()
         
         print(s.max(), s.min())
@@ -74,9 +74,9 @@ class TestScale(unittest.TestCase):
             
             for intr in inter:
                 with self.subTest('{}-{}'.format(preproc, intr)):
-                    scale = get_preprocess(preproc)(84,84,Namespace(inter=intr, gpu=-1))
+                    scale = get_preprocess(preproc)(84,84,Namespace(inter=intr, gpu=-1, screen_normalize='trans'))
                     x = scale.forward(s)
-                    cv2.imwrite('tmp/{}_{}.png'.format(preproc, intr), np.uint8(x * 255.0))
+                    cv2.imwrite('tmp/{}_{}.png'.format(preproc, intr), np.uint8(x))
 
     def test_04(self):
         preprocs = ['PIL:cv2']
@@ -116,7 +116,7 @@ class TestScale(unittest.TestCase):
         args =Namespace(inter='LINEAR',
                         gpu=0,
                         preproc='image',
-                        screen_normalize='env')
+                        screen_normalize='trans')
         args.preproc = 'image'
         scale_image = get_preprocess('image')(84,84, args)
         image_x = scale_image.forward(s)
