@@ -121,7 +121,12 @@ def _parse_arguments():
                         default=False,
                         help="Save each screen image to a png. By default, save all screens in an episode into an AVI as moving image file.")
 
-
+    # Training parameters
+    parser.add_argument('--discount',
+                        type=float,
+                        default=0.99,
+                        help="discount rate")
+    
 
     parser.add_argument('--test',
                         action='store_true',
@@ -265,7 +270,7 @@ def _dqn30_setting(opt):
     opt.clip_delta = 1
     opt.clip_reward = 1
     opt.rescale_r = True
-    opt.discount = 0.99
+    #opt.discount = 0.99
     opt.n_replay = 1
     opt.update_freq = 4
 

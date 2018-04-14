@@ -28,11 +28,11 @@ make install
 echo export PATH=/usr/local/mpi/bin:\$PATH >> /root/.bashrc
 echo export LD_LIBRARY_PATH=/usr/local/lib:/usr/local/mpi/lib:\$LD_LIBRARY_PATH >> /root/.bashrc
 
-pip3 install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.6.0-cp35-cp35m-linux_x86_64.whl
-pip3 install https://cntk.ai/PythonWheel/GPU/cntk_gpu-2.5-cp35-cp35m-linux_x86_64.whl
-#pip3 install https://cntk.ai/PythonWheel/GPU/cntk-2.3.1-cp35-cp35m-linux_x86_64.whl
+pip3 install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.4.1-cp35-cp35m-linux_x86_64.whl
+#pip3 install https://cntk.ai/PythonWheel/GPU/cntk_gpu-2.5-cp35-cp35m-linux_x86_64.whl
+pip3 install https://cntk.ai/PythonWheel/GPU/cntk-2.3.1-cp35-cp35m-linux_x86_64.whl
 
-git clone https://github.com/keras-team/keras.git -q -b 2.1.5
+git clone https://github.com/keras-team/keras.git -q -b 2.1.2
 cd keras
 python3 setup.py install
 pip3 install h5py
