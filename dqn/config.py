@@ -126,6 +126,10 @@ def _parse_arguments():
                         type=float,
                         default=0.99,
                         help="discount rate")
+    parser.add_argument('--max_reward',
+                        type=float,
+                        default=1.0,
+                        help="max reward")
     
 
     parser.add_argument('--test',

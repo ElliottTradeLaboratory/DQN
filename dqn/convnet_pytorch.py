@@ -229,13 +229,6 @@ class PyTorchConvnet(Convnet, Utils):
             params_dict[mod.name] = tuple(params)
         return params_dict
 
-    def get_params(self):
-        return (self.model.features.state_dict(),
-                  self.model.classifier.state_dict())
-    def set_params(self, weights):
-        self.model.features.load_state_dict(weights[0])
-        self.model.classifier.load_state_dict(weights[1])    
-
     def _save(self, filepath):
         self.saver(filepath, self.model)
 
@@ -251,8 +244,10 @@ class PyTorchTrainer(Trainer, Utils):
 
         if args.backend =='pytorch':
             def updater(network, target_network):
-                params = network.get_params()
-                target_network.set_params(params)
+                state_dicts = (network.model.features.state_dict(),
+                          network.model.classifier.state_dict())
+                target_network.model.features.load_state_dict(state_dicts[0])
+                target_network.model.classifier.load_state_dict(state_dicts[1])
             self.updater = updater
         else:
             def updater(network, target_network):

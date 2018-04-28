@@ -66,7 +66,7 @@ class DQNAgent:
         self.q2 = np.array([])
 
         self.q_max = 1.0
-        self.r_max = 1.0
+        self.r_max = self.max_reward
 
         self.normalize = args.screen_normalize == 'agent'
         self.random = get_random()
@@ -193,20 +193,14 @@ class DQNAgent:
         # get action
         if self.use_tie_break:
             # Evaluate all other actions (with random tie-break)
-            maxq = self.q[0]
-            besta = [0]
-            for a in range(1, self.n_actions):
-                if self.q[a] > maxq:
-                    besta = [a]
-                    maxq = self.q[a]
-                elif self.q[a] == maxq:
-                    besta.append(a)
-
-            self.best_q = maxq
+            maxq = self.q.max()
+            results = np.where(self.q == maxq)
+            besta = results[0]
 
             r = self.random.random(len(besta))
 
             self.lastAction = besta[r]
+
         else:
             # only argmax
             self.lastAction = np.argmax(self.q)
