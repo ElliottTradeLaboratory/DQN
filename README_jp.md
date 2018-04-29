@@ -5,13 +5,13 @@
 ## 概要
 
 
-このリポジトリにはPyTorch, MXNet, TensorflowそしてCNTK(後の2つはKeras上で)といったメジャーなDeep Learningフレームワーク(以下、DLフレームワーク)を使用したDeep Q-Network[(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)(DQN)の実装が含まれています。<br>
+このリポジトリにはPyTorch, MXNet, TensorflowそしてCNTK(後の2つはKeras上で)といったメジャーなDeep Learningフレームワーク(以下、DLフレームワーク)を使用したDeep Q-Network[(Mnih et al., 2015)](https://www.nature.com/articles/nature14236)(DQN)の実装が含まれています。<br>
 各DLフレームワークは、DQNエージェントを有するトレーニング・コンテキストから呼び出されるトレーニング・ストラテジー ― ネットワーク部および最適化部 ― の実装に用いられ、同一条件下での各DLフレームワークの性能比較が可能となっています([Figure 1](#Figure1))。<br>
-これらの実装方法とパフォーマンスは、[Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)の参照実装である[DQN3.0](https://github.com/deepmind/dqn)と全く同じです.
+これらの実装方法とパフォーマンスは、[Mnih et al., [2015]](https://www.nature.com/articles/nature14236)の参照実装である[DQN3.0](https://github.com/deepmind/dqn)と全く同じです.
 
-詳細は[wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki/ホーム)を参照してください。
+詳細は[wiki]( https://elliotttradelaboratory.github.io/DQN/)を参照してください。
 
-![システム概要図](https://github.com/ElliottTradeLaboratory/DQN/wiki/images/system_overview.jpg)
+![システム概要図](./docs/images/system_overview.jpg)
 
 <a name="Figure1">Figure 1:　システム概要図</a>
 
@@ -20,7 +20,7 @@
 ## インストール概要
 
 * インストールにはLinuxが必須です。
-* GPUの使用を強く推奨します。　なぜならば、以下のスペックのPC上での5000万ステップの学習に約5日間を要すからです。
+* GPUの使用を強く推奨します。　なぜならば、以下のスペックのPC上での5000万ステップの学習に約3日間を要すからです。
 
 <a name="Table1"/>Table 1:　動作確認PCスペック
 
@@ -45,13 +45,13 @@
 
 この実装は複数のDLフレームワークを使用していますが、それらすべてをインストールすることも、または1つのDLフレームワークのみをインストールすることも可能です。　しかし、Tensorflowはロギングのために必須です。
 
-最も簡単にあなたのLinux環境を壊すことなく実行させる方法は、「[1. Dockerで実行する場合](#1-dockerで実行する場合)」に従い、[Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)を使用し、[Docker](https://www.docker.com/)上に環境を構築することです。
+最も簡単にあなたのLinux環境を壊すことなく実行させる方法は、「[1. Dockerで実行する場合](#1-dockerで実行する場合)」に従い、[Dockerfiles](./install)を使用し、[Docker](https://www.docker.com/)上に環境を構築することです。
 
 特に、CNTKの場合、異なる引数を指定したトレイニングプロセスを並行に実行させたい時はDockerを使うと便利です。　なぜならば、CNTKの並行処理はMPIで実装されているため、プロセスを実行する際には`mpiexec`を使用して`mpiexec --npernode $num_workers python training.py`というように実行させなければならないからです[<sup>[1]</sip>](#cntk_mpi)。
 
 もしDockerを使用せずLinuxに直接インストールしたい場合は、「[2. Docker以外の環境で実行する場合](#2-docker以外の環境で実行する場合)」に従ってインストールすることができます。
 
-もし上記以外の方法でインストールしたい場合、[installディレクトリ](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、DLフレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がDLフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各DLフレームワークのバージョンを厳密に指定しているからです。
+もし上記以外の方法でインストールしたい場合、[installディレクトリ](./install)にあるインストール・スクリプトファイルが、どのようにインストールしたらよいかを理解するための参考になります。　特に、DLフレームワークをインストールする際には、installディレクトリにある _\<framework name\>_ _install.shに従いインストールする必要があります。　なぜならば、このDQN実装がDLフレームワークの将来のバージョンの影響により動作しなくなることを防ぐために、各DLフレームワークのバージョンを厳密に指定しているからです。
 
 ### ◇Arcade Learning Environment
 
@@ -150,9 +150,9 @@ $ tensorboard --logdir .
 * _\<log dir\>_ はTensorbord用のログを出力するための任意のディレクトリです。　デフォルトは`/tmp`。<br>
 * _\<framework name\>_ は以下になります。
 
-_\<framework name\>_ | インストールされるDLフレームワーク| CUDA | cuDNN
+_\<framework name\>_ | インストールされるDLフレームワーク[<sup>[2]</sup>](#fw)| CUDA | cuDNN
 ---------------|-----|-----|-----
-`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
+`pytorch` | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0 
 `mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
 `tensorflow` | Tensorflow-gpu 1.4.1<br>Keras 2.1.2 | 8.0 | 6.0
 `cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu)<br>Keras 2.1.2 | 8.0 | 6.0
@@ -174,5 +174,4 @@ _\<backend name\>_ | ネットワークで使用するDLフレームワーク
 
 ***
 <a name="cntk_mpi"><sup>[1]</sup></a> https://docs.microsoft.com/en-us/cognitive-toolkit/Multiple-GPUs-and-machines<br>
-<a name="pytorch_cuda"><sup>[2]</sup></a> 2018年1月時点でTensorflowはCUDA9.0では動作しないためです。<br>
-<a name="tensorflow"><sup>[3]</sup></a> 2018年1月時点でPython3.6で実行する場合は、次のようにTensorflow1.3.0をインストールする必要があります。<br>[GPU用]pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl<br>[CPU用]pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow_cpu-1.3.0-cp36-cp36m-linux_x86_64.whl.<br>
+<a name="fw"><sup>[2]</sup></a> インストールされる各フレームワークは、テストに使用したバージョンです。<br>
