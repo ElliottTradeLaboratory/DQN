@@ -17,4 +17,5 @@ logs/
 a.txt
 b.txt
 c.txt
+*.bak
 .ipynb_checkpoints
