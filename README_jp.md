@@ -9,7 +9,7 @@
 各DLフレームワークは、DQNエージェントを有するトレーニング・コンテキストから呼び出されるトレーニング・ストラテジー ― ネットワーク部および最適化部 ― の実装に用いられ、同一条件下での各DLフレームワークの性能比較が可能となっています([Figure 1](#Figure1))。<br>
 これらの実装方法とパフォーマンスは、[Mnih et al., [2015]](https://www.nature.com/articles/nature14236)の参照実装である[DQN3.0](https://github.com/deepmind/dqn)と全く同じです.
 
-詳細は[wiki]( https://elliotttradelaboratory.github.io/DQN/)を参照してください。
+詳細は[こちら]( https://elliotttradelaboratory.github.io/DQN/)を参照してください。
 
 ![システム概要図](./docs/images/system_overview.jpg)
 
