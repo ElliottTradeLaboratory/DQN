@@ -9,7 +9,7 @@ from mxnet import random
 from mxnet.module import BucketingModule
 from mxnet import context as ctx
 from mxnet.symbol import sign, sqrt, Activation, Custom
-from initializer import Torch_nn_DefaultInitializer as torch_nn_init
+from initializer import get_initializer
 
 def setup_before_package_loading(opt):
     import os
@@ -19,23 +19,23 @@ def setup(opt):
     random.seed(opt.seed)
     return opt
 
-# Reproduce initializer of Torch7 nn layer.
 @mxnet.initializer.register
-@mxnet.initializer.alias('torch_nn_init')
-class Torch_nn_DefaultInitialiser(mxnet.initializer.Initializer):
+@mxnet.initializer.alias('DQN_initializer')
+class Initializer(mxnet.initializer.Initializer):
 
-    def __init__(self):
-        super(Torch_nn_DefaultInitialiser, self).__init__()
-        torch_nn_init.channel_last = False
+    def __init__(self, type):
+        super(Initializer, self).__init__()
+        self.initializer = get_initializer(type)
+        self.initializer.channel_last = False
 
     def _init_weight(self, name, arr):
         shape = arr.shape
-        weight = torch_nn_init.kernel_initializer(shape)
+        weight = self.initializer.kernel_initializer(shape)
         arr[:] = weight
 
     def _init_bias(self, name, arr):
         shape = arr.shape
-        bias = torch_nn_init.bias_initializer(shape)
+        bias = self.initializer.bias_initializer(shape)
         arr[:] = bias
 
 # Extension class of BucketingModule with get_parameters() added

@@ -4,7 +4,7 @@ import numpy as np
 import mxnet as mx
 from collections import namedtuple, deque, OrderedDict
 from mxnet.symbol import Variable, FullyConnected, Convolution, flatten
-from mxnet_extensions import Torch_nn_DefaultInitialiser, ExBucketingModule, DQNRMSProp, get_relu
+from mxnet_extensions import Initializer, ExBucketingModule, DQNRMSProp, get_relu
 
 from convnet_common import Convnet, Trainer
 from visualizer import LearningVisualizer
@@ -77,7 +77,7 @@ class MXnetConvnet(Convnet):
         # mxnet recommends default_bucket use most large batch size for memory allocation.
         module = ExBucketingModule(sym_gen, default_bucket_key=MODE_VALIDATE, context=self.args.device)
         module.bind(data_shapes=self.shapes[MODE_VALIDATE], for_training=True)
-        module.init_params(Torch_nn_DefaultInitialiser())
+        module.init_params(Initializer(self.args.initializer))
 
         # Add other Modules
         for mode in [MODE_PREDICT, MODE_OUTPUTS, MODE_LEARNING]:
