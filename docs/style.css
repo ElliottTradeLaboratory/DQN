@@ -19,6 +19,7 @@ body {
     width:250px;
 }
 .footer{
+    padding: 10px 50px 10px;
     font-size: 0.8rem;
 }
 .header_hr{
@@ -62,10 +63,14 @@ code {
 .description {
     color: #606c71;
 }
+
 a {
 
-color:  #999999;
-text-decoration: non;
+    color:  #bbbbbb;
 
+}
+a.visit {
+
+    color:  #999999;
 }
 
