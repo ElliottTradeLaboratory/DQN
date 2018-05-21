@@ -20,6 +20,8 @@ body {
 }
 .footer{
     padding: 10px 50px 10px;
+}
+.copyright{
     font-size: 0.8rem;
 }
 .header_hr{
