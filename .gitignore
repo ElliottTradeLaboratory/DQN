@@ -6,11 +6,9 @@ logs/
 *.xlsx
 *.avi
 *.mp4
-*.png
 *.a
 *.so
 *.o
-*/*.jpg
 */*/a.txt
 */*/b.txt
 */*/c.txt
