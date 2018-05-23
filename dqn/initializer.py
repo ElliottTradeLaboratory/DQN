@@ -94,7 +94,7 @@ class Uniform_Initializer(Initializer):
     def kernel_initializer(shape, dtype=None):
         cls = Uniform_Initializer
         fan_in, _ = compute_fans(shape, 'channels_last' if cls.channel_last else 'channels_first')
-        stdv = 1 / np.sqrt(fan_in)
+        stdv = 1. / np.sqrt(fan_in)
 
         random = get_random()
         return np.float32(random.uniform(-stdv, stdv, shape=shape))
