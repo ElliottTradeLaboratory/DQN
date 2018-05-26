@@ -8,7 +8,7 @@ See ["The Reproduction Method of Deep Q-network with DQN3.0-level performance"](
 ## Installation Overview
 
 * The installation requires Linux.<br>
-* Strongly recommended use GPU.　Because it takes about 2~3 days to learn 5 million steps even when running on the GTX1080ti.
+* Strongly recommended use GPU.　Because it takes about 2~3 days to training 5 million steps even if running on the GTX1080ti.
 
 ## Installation instructions
 
@@ -23,10 +23,8 @@ Install nvidia-docker as follows:
 
 ```
 cd <clone root dir>
-git clone https://github.com/ElliottTradeLaboratory/DQN.git
+git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 ```
-
-NOTE: If you want see other source code such as alewrap_py and xitari, you can specify `--recursive` option and download them at same time.
 
 #### 1-3. Build Docker images
 
