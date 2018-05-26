@@ -47,16 +47,15 @@ $
 `-v` option for logdir is strongly recommended for training time.
 
 ```
-$ nvidia-docker run -it --rm dqn [-v <any Host logdir>:<any container logdir>]
+$ nvidia-docker run -it --rm dqn [-v <Host log dir>:<Container logd dir>]
 root@xxxxxx:/# cd DQM
-root@xxxxxx:/DQN# ./run <backend name> <game name> [--logdir <any container logdir>] [options]
+root@xxxxxx:/DQN# ./run <backend name> <game name> [--logdir <Container log dir>] [options]
 ```
 
 #### 1-5. Visualization
 
-if use `-v` for logdir with Host logdir `/tmp`
 ```
-$ cd /tmp/<game name>
+$ cd <Host log dir>/<game name>
 $ tensorboard --logdir .
 ```
 
