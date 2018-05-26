@@ -113,7 +113,7 @@ _\<framework name\>_ | Install frameworks| CUDA | cuDNN
 `cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu)<br>Keras 2.1.2 | 8.0 | 6.0
 `mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
 
-Tensorflow 1.4.1(cpu) is necessary for visualization if you do not install Tensorflow-gpu 1.4.1.
+Tensorflow 1.4.1/1.2.1(cpu) is necessary for visualization if you do not install Tensorflow-gpu 1.4.1.
 
 * _\<game name\>_ is:<br>
 　For alewrap_py,  a module name of the game exclude `.bin`(e.g. `breakout`).<br>
