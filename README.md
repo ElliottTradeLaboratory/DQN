@@ -8,7 +8,7 @@ See ["The Reproduction Method of Deep Q-network with DQN3.0-level performance"](
 ## Installation Overview
 
 * The installation requires Linux.<br>
-* Strongly recommended use GPU.　Because it takes about 2~3 days to training 5 million steps even if running on the GTX1080ti.
+* Strongly recommended use GPU.　Because it takes about 2~3 days to training 5 million steps even if running on a GTX1080ti.
 
 ## Installation instructions
 
@@ -107,7 +107,7 @@ $ tensorboard --logdir .
 * _\<framework name\>_ as follows:
 
 _\<framework name\>_ | Install frameworks| CUDA | cuDNN
----------------|-----|-----|-----
+---------------|-----|:-----:|:-----:
 `pytorch` | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0 
 `tensorflow` | Tensorflow-gpu 1.4.1<br>Keras 2.1.2 | 8.0 | 6.0
 `cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu)<br>Keras 2.1.2 | 8.0 | 6.0
