@@ -8,7 +8,7 @@ See ["The Reproduction Method of Deep Q-network with DQN3.0-level performance"](
 ## Installation Overview
 
 * The installation requires Linux.<br>
-* Strongly recommended use GPU.　Because it takes about 2~3 days to learn 5 million steps even when running on the GTX1080ti.
+* Strongly recommended use GPU.　Because it takes about 2~3 days to training 5 million steps even if running on a GTX1080ti.
 
 ## Installation instructions
 
@@ -23,10 +23,8 @@ Install nvidia-docker as follows:
 
 ```
 cd <clone root dir>
-git clone https://github.com/ElliottTradeLaboratory/DQN.git
+git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 ```
-
-NOTE: If you want see other source code such as alewrap_py and xitari, you can specify `--recursive` option and download them at same time.
 
 #### 1-3. Build Docker images
 
@@ -39,7 +37,7 @@ $ ./build_docker_images.sh
 　　・
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 dqn                 latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
-dqn_mxnet           latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
+dqn_for_mxnet       latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
 $
 ```
 `dqn` is contained PyTorch, Tensorflow-gpu, CNTK, Keras.<br>
@@ -109,11 +107,13 @@ $ tensorboard --logdir .
 * _\<framework name\>_ as follows:
 
 _\<framework name\>_ | Install frameworks| CUDA | cuDNN
----------------|-----|-----|-----
-`pytorch`[<sup>[2]</sup>](#pytorch_cuda) | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu)[<sup>[3]</sup>](#tensorflow) | 8.0 | 6.0 
+---------------|-----|:-----:|:-----:
+`pytorch` | PyTorch 0.3.0.post4<br> Tensorflow 1.4.1(cpu) | 8.0 | 6.0 
 `tensorflow` | Tensorflow-gpu 1.4.1<br>Keras 2.1.2 | 8.0 | 6.0
 `cntk` | CNTK 2.3.1<br> Tensorflow 1.4.1(cpu)<br>Keras 2.1.2 | 8.0 | 6.0
 `mxnet` | MXNet 1.0.0<br> Tensorflow 1.2.1(cpu) | 8.0 | 5.1
+
+Tensorflow 1.4.1/1.2.1(cpu) is necessary for visualization if you do not install Tensorflow-gpu 1.4.1.
 
 * _\<game name\>_ is:<br>
 　For alewrap_py,  a module name of the game exclude `.bin`(e.g. `breakout`).<br>
