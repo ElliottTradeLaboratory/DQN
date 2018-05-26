@@ -1,37 +1,14 @@
-# DQN implementation with DQN3.0-level performance through Python using PyTorch, MXNet, Tensorflow and CNTK
+# DQN implementation with DQN3.0-level performance using Python with PyTorch, MXNet, Tensorflow and CNTK (last two on Keras)
 
-[<sup>日本語版はこちら</sup>](README_jp.md)
+This repository contains an implementation of Deep Q-Network ([Mnih et al., 2015](https://www.nature.com/articles/nature14236)) (DQN) using major deep learning frameworks such as PyTorch, MXNet, Tensorflow and CNTK (last two on Keras) .
+These are accuracy reproduced [DQN3.0](https://github.com/deepmind/dqn).
 
-This repository contains an implementation of Deep Q-Network ([(Mnih et al., 2015)](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf)) (DQN) using major Deep Learning Frameworks such as PyTorch, MXNet, Tensorflow and CNTK (both on Keras) .
-Each framework is used for the implementation of the network part and optimization part, and by learning on the common DQN agent and training scheme, make it possible to compare the performance of each framework under the same condition.
-These implementation methods and performance are exactly the same as [DQN3.0](https://github.com/deepmind/dqn) which is the reference implementation of  [Mnih et al., [2015]](https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf).
-
-See [wiki](https://github.com/ElliottTradeLaboratory/DQN/wiki) for more details.
+See ["The Reproduction Method of Deep Q-network with DQN3.0-level performance"](https://elliotttradelaboratory.github.io/DQN/) for more details.
 
 ## Installation Overview
 
 * The installation requires Linux.<br>
-* Strongly recommended use GPU.　Because it takes about 7 days to learn 5 million steps even when running on the GTX1080ti using the fastest version with the setting closest to DQN 3.0.
-
-### ◇Deep Learning Frameworks
-This implementation uses multiple frameworks, but you can install and run all of them, or you can install and run only one framework.
-However, only Tensorflow is necessary for logging.
-
-The easiest way to run without breaking your Linux environment is to use [Docker](https://www.docker.com/) to build those environments from [Dockerfiles](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) onto Docker as follows "[1. Run on Docker](#1-run-on-docker)".
-
-Particularly, in the case of CNTK, it is useful to use Docker to running parallel train when you needs running parallel with different arguments.　Because, parallelization in CNTK is implemented with MPI, therefore you need to use `mpiexec` and execute like `mpiexec --npernode $num_workers python training.py`[<sup>[1]</sip>](#cntk_mpi).
-
-If you want to installing directly to Linux without Docker, you can install as follows "[2. Run on your environment without Docker](#2-run-on-your-environment-without-docker)".
-
-If you want to install other way, you can refer to see install scripts in [install directory](https://github.com/ElliottTradeLaboratory/DQN/tree/master/install) for help to understanding how to install. 　Particularly, you need to install according to  _\<framework name\>_ _install.sh in install directory for frameworks. Because, The version of each framework is strictly specified for prevent the future releases of each framework from causing this DQN implementation to stop working.
-
-
-### ◇Arcade Learning Environment
-
-This implementation uses [alewrap_py](https://github.com/ElliottTradeLaboratory/alewrap_py) that reproduced [Deep Mind's alewrap](https://github.com/deepmind/alewrap) on python, but you can also use [Open AI's Gym](https://github.com/openai/gym).<br>
-Since alewrap_py is submodules of this repository, you will be able to install it automatically, but Gym needs to be installed separately (but it is not required).<br>
-However, the advantage of installing the gym is not only comparable with the alewrap_py version, but since all Atari game modules (e.g. breakout.bin) are bundled with atari_py that is bundled with Gym, There is also no need to search in to get them.<br>
-If you follows to "[1. Run on Docler](#1-run-on-docker)" or "[2. Run on your environment without Docker](#2-run-on-your-environment-without-docker)", Gym will be automatically installed .
+* Strongly recommended use GPU.　Because it takes about 2~3 days to learn 5 million steps even when running on the GTX1080ti.
 
 ## Installation instructions
 
@@ -40,7 +17,7 @@ If you follows to "[1. Run on Docler](#1-run-on-docker)" or "[2. Run on your env
 #### 1-1. Install nvidia-docker
 
 Install nvidia-docker as follows:
-https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0)
+[https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0)](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0))
 
 #### 1-2. Clone repository
 
@@ -53,29 +30,36 @@ NOTE: If you want see other source code such as alewrap_py and xitari, you can s
 
 #### 1-3. Build Docker images
 
-Build Docker image(s) for any framework as follows:
+Build Docker images for any framework as follows:
 ```
 $ cd <clone root dir>/DQN/install
-$ ./build_docker_images <framework name> or all
+$ ./build_docker_images.sh
 　　・
 　　・
 　　・
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-pythorch            latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
-tensorflow          latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
-cntk                latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
-mxnet               latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
+dqn                 latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
+dqn_mxnet           latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
 $
 ```
+`dqn` is contained PyTorch, Tensorflow-gpu, CNTK, Keras.<br>
+`dqn_mxnet` is contained MXNet and Tensorflow(CPU)
 
 #### 1-4. Run DQN
+`-v` option for logdir is strongly recommended for training time.
 
 ```
-$ cd <clone root dir>/DQN
-$ ./run_docker <framework name> [--logdir <log dir>]
-mount /mnt/log_dir --> <log dir> if specified --logdir otherwise /tmp 
+$ nvidia-docker run -it --rm dqn [-v <any Host logdir>:<any container logdir>]
 root@xxxxxx:/# cd DQM
-root@xxxxxx:/DQN# ./run --backend <backend name> --env <game name> [options]
+root@xxxxxx:/DQN# ./run <backend name> <game name> [--logdir <any container logdir>] [options]
+```
+
+#### 1-5. Visualization
+
+if use `-v` for logdir with Host logdir `/tmp`
+```
+$ cd /tmp/<game name>
+$ tensorboard --logdir .
 ```
 
 ### 2. Run on your environment without Docker
@@ -102,18 +86,18 @@ $ git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 
 ```
 $ cd <clone root dir>/DQN/install
-$ ./install_your_linux.sh <framework name> or all
+$ ./install_your_linux.sh
 ```
 
 #### 2-4. Run DQN
 
 ```
 $ cd <clone root dir>/DQN
-$ ./run --backend <backend name> --env <game name> [options]
+$ ./run <backend name> <game name> [options]
 ```
 
-
 ### 3. Visualization
+
 ```
 $ cd <log dir>/<game name>
 $ tensorboard --logdir .
@@ -138,15 +122,8 @@ _\<framework name\>_ | Install frameworks| CUDA | cuDNN
 
 _\<backend name\>_ | Framework used for networks
 ---------------|----------
-`pytorch` | PyTorch with torch.nn package
-`pytorch_legacy` | PyTorch with torch.legacy.nn package
+`pytorch` | PyTorch with `torch.nn package`
+`pytorch_legacy` | PyTorch with `torch.legacy.nn package`
 `tensorflow` | Tensorflow with Keras
 `cntk` | CNTK with Keras
 `mxnet` | MXNet
-
-
-
-***
-<a name="cntk_mpi"><sup>[1]</sup></a> https://docs.microsoft.com/en-us/cognitive-toolkit/Multiple-GPUs-and-machines<br>
-<a name="pytorch_cuda"><sup>[2]</sup></a> Because it depends on Tensorflow that used for preprocessing and logging. It does not work on CUDA9.0 as of January 2018.<br>
-<a name="tensorflow"><sup>[3]</sup></a> As of January 2018, if you want to run on Python3.6, you must install Tensorflow 1.3.0 as follows:<br>[for GPU]pip install https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.3.0-cp36-cp36m-linux_x86_64.whl<br>[for CPU]pip install https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow_cpu-1.3.0-cp36-cp36m-linux_x86_64.whl.<br>
