@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-    echo [usage] ./install_fw.sh [pytorch, tensorflow, cntk, mxnet or all]
-    exit 1
-fi
-
 echo *** Installing OpenAI Gym ***
 git clone https://github.com/openai/gym.git
 cd gym
@@ -22,12 +17,8 @@ cd ${ALEWRAP_PY_DIR}/alewrap_py/atari_roms
 ls ${PACKAGES_DIR}/atari_py/atari_roms/*.bin | xargs -I{} ln -s {}
 
 cd /DQN/install
-frameworks="pytorch cntk tensorflow mxnet"
-for framework in $frameworks; do
-    echo ">>>>>>> ${framework} <<<<<<<<"
-    if [ "$framework" = "$1" -o "$1" = "all" ]; then
-        echo *** Installing ${framework} ***
-        ./${framework}_install.sh
-    fi
+for framework in $@; do
+    echo *** Installing ${framework} ***
+    ./${framework}_install.sh
 done
 pip3 install Pillow matplotlib
