@@ -1,3 +1,3 @@
 #!/bin/bash
 ./dependences.sh
-./setup.sh $1
+./setup.sh pytorch mxnet tensorflow cntk
