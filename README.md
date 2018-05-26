@@ -37,7 +37,7 @@ $ ./build_docker_images.sh
 　　・
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
 dqn                 latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
-dqn_mxnet           latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
+dqn_for_mxnet       latest              xxxxxxxxxxxx        xxxxxxx             xxxxxx
 $
 ```
 `dqn` is contained PyTorch, Tensorflow-gpu, CNTK, Keras.<br>
