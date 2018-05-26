@@ -3,7 +3,7 @@
 echo *** Installing OpenAI Gym ***
 git clone https://github.com/openai/gym.git
 cd gym
-pip3 install -e .[atari]
+pip install -e .[atari]
 
 echo *** Installing alewrap_py ***
 cd /
@@ -21,4 +21,4 @@ for framework in $@; do
     echo *** Installing ${framework} ***
     ./${framework}_install.sh
 done
-pip3 install Pillow matplotlib
+pip install Pillow matplotlib
