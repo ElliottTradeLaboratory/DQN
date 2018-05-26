@@ -9,6 +9,7 @@ RUN apt-get install -y  git
 RUN git clone --recursive https://github.com/ElliottTradeLaboratory/DQN.git
 RUN cd /DQN/install \
   && chmod 777 *.sh \
+  && pwd \
   && cat ./dependencies.sh
 #  && ./dependencies.sh \
 #  && ./setup.sh $FRAMEWORK
