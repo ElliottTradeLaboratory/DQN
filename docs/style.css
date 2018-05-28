@@ -1,6 +1,4 @@
 body {
-  padding: 0;
-  margin: 0;
   font-family: 'Open Sans',arial, verdana;
   font-size: 16px;
   line-height: 1.5;
@@ -12,15 +10,10 @@ body {
 }
 
 .frame{
-    width:100%;
+    width:1024px;
+    margin: auto;
+    padding: auto;
 }
-.left_brank{
-  width:10%;
-}
-.right_brank{
-  width:10%;
-}
-
 .contents{
     width: 80%;
     padding: 10px 50px 10px;
