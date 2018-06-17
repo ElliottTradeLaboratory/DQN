@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript"/>
     <meta name=keywords content="DQN,Deep Q-network,Tensorflow,PyTorch,MXNet,CNTK,Python,reinforcement learning,deep learning"/>
     <meta name=description content="Explaination how to reproduct DQN3.0 using Python with PyTorch, MXNet, Tensorflow and CNTK (last two on Keras)."/>
-    <title>Improve Reproducibility Throught Accurate Reproduction of Deep Q-network</title>
+    <title>Basic Reproduction Method with Accurate Reproduction of Deep Q-network</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="shortcut icon" href="https://elliotttradelaboratory.github.io/favicon.ico"/>
     <link rel="icon" type="image/png" href="https://elliotttradelaboratory.github.io/logo.png" />
@@ -31,19 +31,20 @@
     <tr>
       <td class="contents">
         <div align="center">
-          <h1>Improve Reproducibility<br>Throught Accurate Reproduction of Deep Q-network</h1>
+          <h1>Basic Reproduction Method<br>with Accurate Reproduction of Deep Q-network</h1>
           Shigeru Matsumura<br>
-          Ver 1.0: 14 June 2018
+          Ver 1.0: 17 June 2018
         </div>
         <hr class="header_hr">
       </td>
     </tr>
     <tr>
         <td class="contents">
-          <p>Low reproducibility of proposal is a serious problem that can lead to undesirable situations for the proposal:&ensp;underestimation; narrow the scope of applications and further study; false direction of further study:&ensp;Like with everyone can reproduce 1+1=2 between arbitrary programming languages and libraries, in principal, the reproduction of an application program between different programming language and library is not difficult—but it is a time-consuming and heavy work—.&ensp;But, the reproduction of Deep Q-network (DQN) (<a href="https://www.nature.com/articles/nature14236" target="_brank">Mnih et al., 2015</a>) is difficult due to various obstacles.&ensp;As a result, in actual conditions, DQN may be underestimated.
-          <p>This article address improvement of reproductivity of the proposal with suggest the solutions found by solving of problems occurred in the accurately reproduction of DQN3.0 (<a href="https://github.com/deepmind/dqn" target="_brank">DeepMind, 2017a</a>).
+          <p>Although Deep Q-network (DQN) (<a href="https://www.nature.com/articles/nature14236" target="_brank">Mnih et al., 2015</a>) was published in February 2015, there are opinions in the reality as of 2018 that it is difficult to reproduce the Reinforcement learning algorithm (<a href="http://amid.fish/reproducing-deep-rl" target="_blank">Rahtz, 2018</a>).
+          <p>In order to solve the difficulty that arises in reproducing Reinforcement learning application, I recommend applying Basic Reproduction Method (BRM) which I suggest.&ensp;BRM shows the direction to which the reproducer should go by explaining the basic knowledge and techniques necessary for reproducing the application program with neural network(s).
+          <p>In this article I explain BRM and show that DQN3.0 (an implementation of Mnih et al., 2015) (<a href="https://github.com/deepmind/dqn" target="_brank">DeepMind, 2017a</a>) was reproduced accurately as a result of applying BRM.
           <div align="center">
-            <a href="./Improve_Reproducibility_v1.0.pdf" target="_brank"><img src="./images/btn_pdf.png"></img></a>
+            <a href="./Basic_Reproduction_Method_v1.0.pdf" target="_brank"><img src="./images/btn_pdf.png"></img></a>
             <a href="https://github.com/ElliottTradeLaboratory/DQN" target="_brank"><img src="./images/btn_repo.png"></img></a>
           </div>
           <div class="figure" align="center">
