@@ -411,6 +411,33 @@ class Pytorch_HuberLoss_RMSpropCentered(Pytorch_HuberLoss_DQN30RMSprop):
         self.rmsprop.step()
 
 
+class Pytorch_HuberLoss_RMSprop(Pytorch_HuberLoss_DQN30RMSprop):
+    # PyTorch Huber loss & built-in RMSprop with Autograd
+    def __init__(self, trainer):
+        super(Pytorch_HuberLoss_RMSprop, self).__init__(trainer)
+        print('Select Pytorch_HuberLoss_RMSprop')
+
+        self.rmsprop = RMSprop([{'params':self.network.model.features.parameters()},
+                                {'params':self.network.model.classifier.parameters()}],
+                               lr=self.lr,
+                               alpha =self.grad_momentum,
+                               eps=self.mini_squared_gradient,
+                               momentum=self.momentum,
+                               weight_decay=self.wc,
+                               centered=False)
+
+    def qLearnMinibatch(self, x):
+
+        s, a, r, s2, term = x
+
+        self.targets, _, _ = self.getQUpdate(x)
+
+        self.rmsprop.zero_grad()
+
+        self.targets.backward(s, self.targets)
+
+        self.rmsprop.step()
+
 def get_optimizer(args):
     optimizer_factory = {
         'pytorch_legacy:DQN3.0:DQN3.0'            :PytorchLegacy_DQN30_Optimizer,
@@ -422,6 +449,7 @@ def get_optimizer(args):
         'pytorch:huber:DQN3.0'                    :Pytorch_HuberLoss_DQN30RMSprop,
         'pytorch:DQN3.0:RMSpropCentered'          :Pytorch_DQN30Loss_RMSpropCentered,
         'pytorch:huber:RMSpropCentered'           :Pytorch_HuberLoss_RMSpropCentered,
+        'pytorch:huber:RMSprop'                   :Pytorch_HuberLoss_RMSprop,
 
     }
     try:
