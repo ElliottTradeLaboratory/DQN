@@ -417,14 +417,14 @@ class Pytorch_HuberLoss_RMSprop(Pytorch_HuberLoss_DQN30RMSprop):
         super(Pytorch_HuberLoss_RMSprop, self).__init__(trainer)
         print('Select Pytorch_HuberLoss_RMSprop')
 
-        self.rmsprop = RMSprop([{'params':self.network.model.features.parameters()},
-                                {'params':self.network.model.classifier.parameters()}],
-                               lr=self.lr,
-                               alpha =self.grad_momentum,
-                               eps=self.mini_squared_gradient,
-                               momentum=self.momentum,
-                               weight_decay=self.wc,
-                               centered=False)
+        self.rmsprop = torch.optim.RMSprop([{'params':self.network.model.features.parameters()},
+                                            {'params':self.network.model.classifier.parameters()}],
+                                           lr=self.lr,
+                                           alpha =self.grad_momentum,
+                                           eps=self.mini_squared_gradient,
+                                           momentum=self.momentum,
+                                           weight_decay=self.wc,
+                                           centered=False)
 
     def qLearnMinibatch(self, x):
 
@@ -434,7 +434,7 @@ class Pytorch_HuberLoss_RMSprop(Pytorch_HuberLoss_DQN30RMSprop):
 
         self.rmsprop.zero_grad()
 
-        self.targets.backward(s, self.targets)
+        self.targets.backward()
 
         self.rmsprop.step()
 

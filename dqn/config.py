@@ -53,7 +53,7 @@ def _parse_arguments():
     parser.add_argument('--optimizer',
                         default='DQN3.0',
                         type=str,
-                        choices=['DQN3.0', 'RMSpropCentered'],
+                        choices=['DQN3.0', 'RMSpropCentered', 'RMSprop'],
                         help="Specifies optimizer.")
     parser.add_argument('--normalized_dqn',
                         action='store_true',
