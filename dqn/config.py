@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 
 sys.path.append('../')
 from utils import Namespace
-    
+
 def _parse_arguments():
 
     parser = ArgumentParser()
@@ -130,7 +130,7 @@ def _parse_arguments():
                         type=float,
                         default=1.0,
                         help="max reward")
-    
+
 
     parser.add_argument('--test',
                         action='store_true',
@@ -173,10 +173,10 @@ def _parse_arguments():
     parser.add_argument('--not_use_egreedy',
                         action='store_true',
                         default=False)
-    parser.add_argument('--file_name', 
+    parser.add_argument('--file_name',
                         type=str,
                         help='filename used for saving network and training history.')
-    parser.add_argument('--run_memo', 
+    parser.add_argument('--run_memo',
                         type=str,
                         help="If you specifies this, specified string is added to log dir name. it useful for identfy a type of model.")
 
@@ -221,7 +221,7 @@ def _debug(opt):
     opt.logdir = '/tmp'
 
     print("--logdir will reset to '/tmp' in debug mode.")
-    
+
     return opt
 
 def _dqn30_setting(opt):
@@ -253,7 +253,7 @@ def _dqn30_setting(opt):
     opt.histType       = "linear"  # history type to use
     opt.histSpacing    = 1
     opt.nonTermProb    = 1
-    
+
     # ε-greedy params
     opt.ep_end = 0.1
     opt.ep_start   = 1
@@ -265,7 +265,7 @@ def _dqn30_setting(opt):
     opt.mini_squared_gradient = 0.01
     opt.momentum = 0
     opt.wc = 0
-    
+
     # varidation params
     opt.valid_size = 500
 
@@ -287,14 +287,14 @@ def _dqn30_setting(opt):
     opt.prog_freq =   1000
 
     opt.num_threads = 1
-    
+
     return opt
 
 
 def get_opt():
 
     args, _ = _parse_arguments()
-    
+
     opt = Namespace(vars(args))
 
     assert opt.env is not None
